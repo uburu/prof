@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width initial-scale=1">
+</head>
+
+<body>
+
+    <div>
+        <div>
+            {{company_name}}
+        </div>
+        
+        <div>
+            {{company_idea}}
+        </div>
+    </div>
+    
+    <div>
+        О проекте
+        {{about_project_info}}
+    </div>
+
+    <div>
+        {{news_subsription}}
+        <form>
+            email: <input type="text" value="email"> 
+            <input type"submit">
+        </form>
+        <a href="{{policy_link}}">{{confidential_guarantee}}</a>
+    </div>
+
+    <div>
+        <div>
+            {% for item in menu %}
+                <div>
+                    {{item}}
+                </div>
+            {% endfor %}
+        </div>
+        <div>
+            {{menu_info}}
+        </div>
+    </div>
+
+    <div>
+    {% for section in sections %}
+        <div>
+            {{ section.name }}
+        </div>
+        <div>
+            {{ section.info }}
+        </div>
+        <div>
+            {{ section.benefit }}
+        </div>
+    {% endfor %}
+    </div>
+</body>
+
+<footer>
+    <div>
+        {{ about_us_title }}
+        {{ about_us_info }}
+    </div>
+</footer>
+
+</html>
