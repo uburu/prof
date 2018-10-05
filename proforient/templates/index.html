@@ -4,67 +4,112 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div>{{company_name}}</div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-    <div>
-        <div>
-            {{company_name}}
-        </div>
-        
-        <div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Вход</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Регистрация</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+    <div class="jumbotron">
+        <h1 class="display-3">О проекте</h1>
+        <p class="lead">
             {{company_idea}}
+        </p> 
+        <hr class="m-y-2">
+        <p>
+            {{about_project_info}}
+        </p>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Узнать больше</a>
+        </p>
+    </div>
+
+<!--     <div class="container">
+        <div class="row">
+            {{news_subsription}}
         </div>
-    </div>
-    
-    <div>
-        О проекте
-        {{about_project_info}}
-    </div>
+        <div class="row">
+            <form>
+                email: <input type="text" value="email"> 
+            </form>
+            <a href="{{policy_link}}">{{confidential_guarantee}}</a>
+        </div>
+    </div> -->
 
-    <div>
-        {{news_subsription}}
-        <form>
-            email: <input type="text" value="email"> 
-            <input type"submit">
-        </form>
-        <a href="{{policy_link}}">{{confidential_guarantee}}</a>
-    </div>
-
-    <div>
-        <div>
+    <div class="container mt-5 pt-5">
+        <div id="menu" class="row mb-5">
             {% for item in menu %}
-                <div>
-                    {{item}}
+                <div class="col-lg-4" style="text-align: center;">
+                    <img class="rounded-circle mb-4" src="test.png" alt="Тут была иконка!" width="140" height="140">
+                    <h3>{{item}}</h3>
                 </div>
             {% endfor %}
         </div>
-        <div>
-            {{menu_info}}
+        <div class="row">
+            <p class="info mt-5">
+                {{menu_info}}
+            </p>
         </div>
     </div>
 
-    <div>
+    <div class="container mt-5">
+        <div class="row">
     {% for section in sections %}
-        <div>
+        <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" alt="Thumbnail [100%x225]" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22348%22%20height%3D%22225%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20348%20225%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16644995595%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A17pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16644995595%22%3E%3Crect%20width%3D%22348%22%20height%3D%22225%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22116.71875%22%20y%3D%22120.15%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true" style="height: 225px; width: 100%; display: block;">
+                <div class="card-body">
+                  <p class="card-text">{{ section.info }}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+<!--         <div>
             {{ section.name }}
         </div>
         <div>
             {{ section.info }}
-        </div>
-        <div>
+        </div> -->
+<!--         <div>
             {{ section.benefit }}
-        </div>
+        </div> -->
     {% endfor %}
+        </div>
     </div>
 </body>
 
-<footer>
+<footer class="container mt-5">
     <div>
         {{ about_us_title }}
         {{ about_us_info }}
     </div>
 </footer>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 </html>
