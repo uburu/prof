@@ -54,7 +54,6 @@ def signIn(request):
     }
     return render(request, 'signin.html', context)
 
-
 @login_required
 def signOut(request):
     logout(request)
