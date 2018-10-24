@@ -31,3 +31,16 @@ class SignUpForm(forms.Form):
 class SignInForm(forms.Form):
     Login = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput())
+
+class ChangeSettingsForm(forms.Form):
+    email = forms.EmailField(required=False)
+    Login = forms.CharField(max_length=100,required=False)
+    first_name = forms.CharField(max_length=100,required=False)
+    second_name = forms.CharField(max_length=100,required=False)
+    third_name = forms.CharField(max_length=100,required=False)
+    education = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
+    dreamWork = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
+    about_me = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
+
+
+
