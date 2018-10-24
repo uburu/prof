@@ -1,0 +1,25 @@
+<!doctype>
+<html>
+	<head>
+		<meta chrset="utf-8">
+		<title>Профориентация</title>
+	</head>
+	<body>
+        <div>
+            <p>
+				{% if user.is_authenticated %}
+					<p>
+						{{ student.user.email }}
+					</p>
+					<p>
+						{{ student.user.password }}
+					</p>
+				{% else %}
+					<p>
+						NOT AUTH
+					</p>
+				{% endif %}
+            </p>
+        </div>
+	</body>
+</html>
