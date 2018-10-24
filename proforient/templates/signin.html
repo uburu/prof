@@ -11,16 +11,10 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	</head>
 	<body>
-        <div>
-				{% if user.is_authenticated %}
-					<p>
-						AUTH
-					</p>
-				{% else %}
-					<p>
-						NOT AUTH
-					</p>
-				{% endif %}
-        </div>
+            <form action="{% url 'signIn' %}" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Submit">
+            </form>
 	</body>
 </html>

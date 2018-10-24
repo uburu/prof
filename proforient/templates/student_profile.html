@@ -12,15 +12,20 @@
 	</head>
 	<body>
         <div>
+            <p>
 				{% if user.is_authenticated %}
 					<p>
-						AUTH
+						{{ student.user.email }}
+					</p>
+					<p>
+						{{ student.user.password }}
 					</p>
 				{% else %}
 					<p>
 						NOT AUTH
 					</p>
 				{% endif %}
+            </p>
         </div>
 	</body>
 </html>
