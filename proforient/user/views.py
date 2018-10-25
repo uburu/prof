@@ -26,7 +26,7 @@ def studentSignUp(request):
     context = {
         'form': form
     }
-    return render(request, 'student_signup.html', context)
+    return render(request, 'user/student_signup.html', context)
 
 def signIn(request):
     if request.method == 'GET':
@@ -52,7 +52,7 @@ def signIn(request):
     context= {
         'form': form
     }
-    return render(request, 'student_signin.html', context)
+    return render(request, 'user/student_signin.html', context)
 
 @login_required
 def signOut(request):
@@ -67,7 +67,7 @@ def studentProfile(request):
     context = {
         'student': student
     }
-    return render(request, 'student_profile.html', context)
+    return render(request, 'user/_student_profile.html', context)
 
 @login_required
 def studentSettings(request):
@@ -102,10 +102,12 @@ def studentSettings(request):
             student.user.save()
             student.save()
             return redirect('studentProfile')
+
     context = {
         'form': form
     }
-    return render(request, 'student_settings.html', context)
+    print(form)
+    return render(request, 'user/_student_settings.html', context)
 
 
 
