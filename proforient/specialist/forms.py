@@ -40,7 +40,7 @@ class ChangeSettingsForm(forms.Form):
     second_name = forms.CharField(max_length=100,required=False)
     third_name = forms.CharField(max_length=100,required=False)
     education = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
-    dreamWork = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
+    workExpirience = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
     about_me = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
 
 

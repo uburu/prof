@@ -1,19 +1,22 @@
+from django.shortcuts import render
+
+# Create your views here.
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 
 
-from user.forms import SignUpForm, SignInForm, ChangeSettingsForm
-from user.models import Profile
+from specialist.forms import SignUpForm, SignInForm, ChangeSettingsForm
+from specialist.models import SpecialistProfile 
 
-def studentSignUp(request):
+def specialistSignUp(request):
     if request.method == 'GET':
         form = SignUpForm()
     elif request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            profile = Profile.objects.create_user(
+            specialist = SpecialistProfile.objects.create_user(
                 Login = form.cleaned_data['Login'],
                 email = form.cleaned_data['email'],
                 password = form.cleaned_data['password'],
@@ -21,14 +24,14 @@ def studentSignUp(request):
                 second_name = form.cleaned_data['second_name'],
                 third_name = form.cleaned_data['third_name']
             )
-            login(request, profile.user)
+            login(request, specialist.user)
             return redirect('/')
     context = {
         'form': form
     }
-    return render(request, 'student_signup.html', context)
+    return render(request, 'specialist_signup.html', context)
 
-def signIn(request):
+def specialistSignIn(request):
     if request.method == 'GET':
         form = SignInForm()
     elif request.method == 'POST':
@@ -52,63 +55,58 @@ def signIn(request):
     context= {
         'form': form
     }
-    return render(request, 'student_signin.html', context)
-
+    return render(request, 'specialist_signin.html', context)
+    
 @login_required
-def signOut(request):
-    logout(request)
-    return redirect('/')
-
-@login_required
-def studentProfile(request):
+def specialistProfile(request):
     if request.user is None or request.user.id is None:
         raise Http404
-    student = Profile.objects.get(user_id=request.user.id)
+    specialist = SpecialistProfile.objects.get(user_id=request.user.id)
+    if not specialist.is_specialist:
+        raise Http404
     context = {
-        'student': student
+        'specialist': specialist
     }
-    return render(request, 'student_profile.html', context)
+    return render(request, 'specialist_profile.html', context)
 
 @login_required
-def studentSettings(request):
+def specialistSettings(request):
     if request.user is None or request.user.id is None:
         raise Http404
-    student = Profile.objects.get(user_id=request.user.id)
+    specialist = SpecialistProfile.objects.get(user_id=request.user.id)
 
     # initial - форма заполняется при загрузке. ключ - имя поля в форме. (все равно что <intput value="значение">)
     # заполнить форму исходными данными нужно для того, чтобы поля которые пользователь не изменял не заполнились None
     if request.method == 'GET':
         form = ChangeSettingsForm(initial={
-            'email': student.user.email,
-            'Login': student.user.username,
-            'first_name': student.first_name,
-            'second_name': student.second_name,
-            'third_name': student.third_name,
-            'education': student.education,
-            'dreamWork': student.dreamWork,
-            'about_me': student.about_me
+            'email': specialist.user.email,
+            'Login': specialist.user.username,
+            'first_name': specialist.first_name,
+            'second_name': specialist.second_name,
+            'third_name': specialist.third_name,
+            'education': specialist.education,
+            'workExpirience': specialist.workExpirience,
+            'about_me': specialist.about_me
         })
     elif request.method == 'POST':
         form = ChangeSettingsForm(request.POST)
         if form.is_valid():
-            student.user.email = form.cleaned_data['email']
-            student.user.username = form.cleaned_data['Login']
-            student.first_name = form.cleaned_data['first_name']
-            student.second_name = form.cleaned_data['second_name'] 
-            student.third_name = form.cleaned_data['third_name']
-            student.education = form.cleaned_data['education']
-            student.dreamWork = form.cleaned_data['dreamWork'] 
-            student.about_me = form.cleaned_data['about_me']
-            student.user.save()
-            student.save()
-            return redirect('studentProfile')
+            specialist.user.email = form.cleaned_data['email']
+            specialist.user.username = form.cleaned_data['Login']
+            specialist.first_name = form.cleaned_data['first_name']
+            specialist.second_name = form.cleaned_data['second_name'] 
+            specialist.third_name = form.cleaned_data['third_name']
+            specialist.education = form.cleaned_data['education']
+            specialist.workExpirience = form.cleaned_data['workExpirience'] 
+            specialist.about_me = form.cleaned_data['about_me']
+            specialist.user.save()
+            specialist.save()
+            return redirect('specialistProfile')
     context = {
         'form': form
     }
-    return render(request, 'student_settings.html', context)
+    return render(request, 'specialist_settings.html', context)
 
 
 
-        
-
-# TODO в studentProfile сделать проверки на DoesNotExist пользователя
+# TODO в specialistProfile сделать проверки на DoesNotExist пользователя
