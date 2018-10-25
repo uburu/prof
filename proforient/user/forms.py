@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User # заменен на EmailSignInUser
+from modelUtils.emailSignInModel import EmailSignInUser
 
 
 class SignUpForm(forms.Form):
@@ -12,12 +13,12 @@ class SignUpForm(forms.Form):
     password_confirmation = forms.CharField(widget=forms.PasswordInput())
 
     def clean_login(self):
-        if User.objects.filter(Login=self.cleaned_data['Login']).exists():
+        if EmailSignInUser.objects.filter(Login=self.cleaned_data['Login']).exists():
             raise forms.ValidationError('Пользователь с таким логином уже существует:(')
         return self.cleaned_data['Login']
 
     def clean_email(self):
-        if User.objects.filter(email=self.cleaned_data['email']).exists():
+        if EmailSignInUser.objects.filter(email=self.cleaned_data['email']).exists():
             raise forms.ValidationError('Пользователь с таким email уже существует:(')
         return self.cleaned_data['email']
     
@@ -29,7 +30,7 @@ class SignUpForm(forms.Form):
 
 
 class SignInForm(forms.Form):
-    Login = forms.CharField(max_length=100)
+    email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput())
 
 class ChangeSettingsForm(forms.Form):

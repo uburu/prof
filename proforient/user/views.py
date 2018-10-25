@@ -36,7 +36,7 @@ def signIn(request):
         if form.is_valid():
             user = authenticate(
                 request,
-                username=form.cleaned_data['Login'], 
+                email=form.cleaned_data['email'], # так как используем не дефолтного User, то аутентификация по email
                 password=form.cleaned_data['password']
             )
 
@@ -76,6 +76,7 @@ def studentSettings(request):
     student = Profile.objects.get(user_id=request.user.id)
 
     # initial - форма заполняется при загрузке. ключ - имя поля в форме. (все равно что <intput value="значение">)
+    # заполнить форму исходными данными нужно для того, чтобы поля которые пользователь не изменял не заполнились None
     if request.method == 'GET':
         form = ChangeSettingsForm(initial={
             'email': student.user.email,
