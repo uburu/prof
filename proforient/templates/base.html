@@ -40,7 +40,7 @@
 
                 {% if user.is_authenticated %}
                     <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle white_text" href="" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ student.first_name }} {{ student.second_name }}</a>
+                        <a class="nav-link dropdown-toggle white_text" href="" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ specialist.first_name }} {{ specialist.second_name }} {{ student.first_name }} {{ student.second_name }}</a>
                         
                         <div class="dropdown-menu" aria-labelledby="dropdown03">
                             <a class="dropdown-item" href="#">Профиль</a>
@@ -54,4 +54,8 @@
         </nav>
         {% block content %}{% endblock %}
     </body>
+
+    <script src="{% static 'js/bootstrap/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
 </html>

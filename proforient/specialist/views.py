@@ -29,7 +29,7 @@ def specialistSignUp(request):
     context = {
         'form': form
     }
-    return render(request, 'specialist_signup.html', context)
+    return render(request, 'specialist/specialist_signup.html', context)
 
 def specialistSignIn(request):
     if request.method == 'GET':
@@ -67,7 +67,7 @@ def specialistProfile(request):
     context = {
         'specialist': specialist
     }
-    return render(request, 'specialist_profile.html', context)
+    return render(request, 'specialist/_specialist_profile.html', context)
 
 @login_required
 def specialistSettings(request):
@@ -105,7 +105,7 @@ def specialistSettings(request):
     context = {
         'form': form
     }
-    return render(request, 'specialist_settings.html', context)
+    return render(request, 'specialist/_specialist_settings.html', context)
 
 
 
