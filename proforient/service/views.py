@@ -30,7 +30,7 @@ def allServicesPage(request):
     context = {
         'services': services
     }
-    return render()
+    return render(request, '.html', context)
 
 
 def servicesByCategoryPage(request, category_name):
@@ -38,7 +38,7 @@ def servicesByCategoryPage(request, category_name):
     context = {
         'services': services
     }
-    return render()
+    return render(request, '.html', context)
 
 
 def servicePage(request, id):
@@ -46,7 +46,7 @@ def servicePage(request, id):
     context = {
         'service': service
     }
-    return render()
+    return render(request, '.html', context)
 
 
 def createService(request, category):
@@ -71,6 +71,6 @@ def createService(request, category):
         'form': form
     }
 
-    return render()
+    return render(request, '.html', context)
 
 

@@ -8,7 +8,8 @@ from django.http import Http404
 
 
 from specialist.forms import SignUpForm, SignInForm, ChangeSettingsForm
-from specialist.models import SpecialistProfile 
+from specialist.models import SpecialistProfile
+from user.models import Profile
 
 def specialistSignUp(request):
     if request.method == 'GET':
@@ -107,6 +108,20 @@ def specialistSettings(request):
     }
     return render(request, 'specialist_settings.html', context)
 
-
+def showSomeProfile(request, id):
+    # если пользователь вошел как специалист
+    if SpecialistProfile.objects.filter(user_id=id).exists():
+        specialist = SpecialistProfile.objects.get(user_id=id)
+        context = {
+            'specialist': specialist, 
+        }
+        return render(request, 'specialist_profile.html', context)
+    # если пользователь зашел как студент
+    elif Profile.objects.filter(user_id=id).exists():
+        student = Profile.objects.get(user_id=id)
+        context = {
+            'student': student,
+        }
+        return render(request, 'student_profile.html', context)
 
 # TODO в specialistProfile сделать проверки на DoesNotExist пользователя
