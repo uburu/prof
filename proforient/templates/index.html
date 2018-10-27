@@ -1,0 +1,123 @@
+
+<!doctype>
+<html>
+	<head>
+		<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width initial-scale=1">
+		<title>Профориентация</title>
+	</head>
+	<body>
+        <div>
+				{% if user.is_authenticated %}
+					<p>
+						AUTH
+					</p>
+				{% else %}
+					<p>
+						NOT AUTH
+					</p>
+				{% endif %}
+        </div>
+
+<!--
+    ВАЖНО: 
+    [] - все <br> и <hr> должны уйти после добавления стилей
+ -->
+
+    <div>
+    <!-- navbar -->
+        {{company_name}}
+    </div>
+    
+
+
+    <br>
+    <hr>
+    <br>
+
+    <div>
+    <!-- jumbotron -->
+        <div>
+            {{company_idea}}
+        </div>
+        <div>
+            {{about_project_info}}
+        </div>
+    </div>
+    
+    <br>
+    <hr>
+    <br>
+    
+    <div>
+    <!-- просто блок -->
+        {{news_subsription}}
+        <form>
+            email: <input type="text" placeholder="email"> 
+            <br>
+            <input type="submit" value="Подписаться на новости">
+        </form>
+        <br>
+        <a href="{{policy_link}}">{{confidential_guarantee}}</a>
+    </div>
+
+    <br>
+    <hr>
+    <br>
+    
+    <div>
+    <!-- посмотри как здесь сделаны круги https://getbootstrap.com/docs/4.1/examples/carousel/ -->
+        <div>
+            {% for item in menu %}
+                <div>
+                    {{item}}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <br>
+        
+        <div>
+            {{menu_info}}
+        </div>
+    </div>
+
+    <br>
+    <hr>
+    <br>
+    
+    <div>
+    <!-- здесь можно карточками, как тут https://getbootstrap.com/docs/4.1/examples/album/ -->
+    {% for section in sections %}
+        <div>
+            {{ section.name }}
+            <br>
+        </div>
+        <div>
+            {{ section.info }}
+            <br>
+        </div>
+        <div>
+            {{ section.benefit }}
+            <br>
+        </div>
+        <br>
+        <hr>
+        <br>
+    {% endfor %}
+    </div>
+
+    
+    
+</body>
+
+<footer>
+<!-- простой футер -->
+    <div>
+        {{ about_us_title }}
+        {{ about_us_info }}
+    </div>
+</footer>
+
+</html>
