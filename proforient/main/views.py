@@ -15,7 +15,6 @@ def index(request):
         return render(request, 'index.html', context)
     # если пользователь зашел как студент
     elif Profile.objects.filter(user__email=request.user).exists():
-        print(2)
         student = Profile.objects.get(user_id=request.user.id)
         context = {
             'usr': student,
