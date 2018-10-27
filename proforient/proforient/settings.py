@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'modelUtils',
     'main',
     'user',
-    'specialist'
+    'specialist',
+    'service'
 ]
 
 MIDDLEWARE = [
