@@ -1,0 +1,61 @@
+{% load static %}
+
+<!doctype>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>AskIvan</title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+
+        <!-- Custom styles for this template -->
+        <link href="{% static 'css/custom/prof.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm navbar-dark blue">
+            <a class="navbar-brand" href="#">Профориентация</a>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsExample03">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Тесты <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Каталог</a>
+                    </li>     
+                </ul>
+
+                <form class="form-inline my-2 my-md-0">
+                    <input class="form-control" type="text" placeholder="Поиск">
+                </form>
+
+                {% if user.is_authenticated %}
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle white_text" href="" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ specialist.first_name }} {{ specialist.second_name }} {{ student.first_name }} {{ student.second_name }}</a>
+                        
+                        <div class="dropdown-menu" aria-labelledby="dropdown03">
+                            <a class="dropdown-item" href="#">Профиль</a>
+                            <a class="dropdown-item" href="#">Настройки</a>
+                            <a class="dropdown-item" href="#">Выйти</a>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </nav>
+        {% block content %}{% endblock %}
+    </body>
+
+    <script src="{% static 'js/bootstrap/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+</html>

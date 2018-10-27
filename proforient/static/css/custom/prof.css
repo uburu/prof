@@ -1,0 +1,38 @@
+.blue
+{
+  background-color: #006dff;
+  border-color: #006dff;
+}
+.green
+{
+  background-color: #20c997; 
+  /* 3ddc97 */
+  border-color: #20c997;
+}
+.black
+{
+  color: #1F1F1F;
+  background-color: #1F1F1F;
+  border-color: #1F1F1F;
+}
+.orange
+{
+  background-color: #fc440f;
+  border-color: #fc440f;
+}
+.white
+{
+  color: #ffffff;
+  background-color: #ffffff;
+  border-color: #ffffff;
+}
+.white_text
+{
+  color: #ffffff;
+}
+.gray
+{
+  color: #f1f1f1;
+  background-color: #f1f1f1;
+  border-color: #f1f1f1;
+}

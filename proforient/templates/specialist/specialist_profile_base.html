@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        {% block profile_content %}{% endblock %}
+    {% else %}
+        NOT AUTH
+    {% endif %}
+{% endblock %}

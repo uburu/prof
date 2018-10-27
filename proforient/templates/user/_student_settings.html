@@ -1,0 +1,53 @@
+{% extends "user/student_profile_base.html" %}
+{% load static %}
+
+{% block profile_content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-4 mb-5">
+            <form action="{% url 'studentSettings' %}" method="post">
+                {% csrf_token %}
+                <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{% static 'img/ivan.jpg' %}" alt="Generic placeholder image" width="140" height="140"></div>
+                    <div class="form-group">
+                        <label for="id_first_name">Имя</label>
+                        <input type="text" class="form-control" name="first_name" value="{{ form.first_name.value }}" maxlength="100" id="id_first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_second_name">Фамилия</label>
+                        <input type="text" class="form-control" name="second_name" value="{{ form.second_name.value }}" maxlength="100" id="id_second_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_third_name">Отчество</label>
+                        <input type="text" class="form-control" name="third_name" value="{{ form.third_name.value }}" maxlength="100" id="id_third_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_education">Школа, образование</label>
+                        <textarea name="education" class="form-control" cols="40" rows="10" maxlength="1000" id="id_education">{{ form.education.value }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_dreamWork">Профессия мечты</label>
+                        <textarea name="dreamWork" class="form-control" cols="40" rows="10" maxlength="1000" id="id_dreamWork">{{ form.dreamWork.value }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_email">Email</label>
+                        <input type="email" class="form-control" name="email" value="{{ form.email.value }}" id="id_email">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_Login">Логин</label>
+                        <input type="text" name="Login" class="form-control" value="{{ form.Login.value }}" maxlength="100" id="id_Login">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary green mt-4">Изменить</button>
+                </div>
+                <div class="col-lg-7">
+                    <h1 class="mb-3">Обо мне</h1>
+                    <div class="form-group">
+                        <label for="id_about_me">Обо мне</label>
+                        <textarea name="about_me" class="form-control" cols="40" rows="10" maxlength="1000" id="id_about_me">{{ form.about_me.value }}</textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
