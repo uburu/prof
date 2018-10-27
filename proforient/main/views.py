@@ -19,6 +19,6 @@ def index(request):
         context = {
             'usr': student,
         }
-        return render(request, 'index.html', context)
+        return render(request, 'index/index.html', context)
     
-    return render(request, 'index.html')
+    return render(request, 'index/index.html')
