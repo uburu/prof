@@ -15,6 +15,10 @@
   background-color: #1F1F1F;
   border-color: #1F1F1F;
 }
+.black-text
+{
+  color: #1F1F1F;
+}
 .orange
 {
   background-color: #fc440f;
@@ -26,7 +30,7 @@
   background-color: #ffffff;
   border-color: #ffffff;
 }
-.white_text
+.white-text
 {
   color: #ffffff;
 }
@@ -35,4 +39,25 @@
   color: #f1f1f1;
   background-color: #f1f1f1;
   border-color: #f1f1f1;
+}
+.gray-text
+{
+  color: #f1f1f1;
+}
+.white-background
+{
+  background-color: #ffffff;
+  opacity: .8;
+  border-radius: .25rem;
+}
+.black-background
+{
+  background-color: #1f1f1f;
+  opacity: .8;
+  border-radius: .25rem;
+}
+.index-img{
+  max-height:500px;
+  height:auto;
+  width:auto;
 }
