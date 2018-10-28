@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from service.models import Services, Categories, Comments
 from service.forms import CreateServiceForm
 from modelUtils.emailSignInModel import EmailSignInUser
+from django.http import Http404
 # Create your views here.
 
 def _paginate(objects_list, request, page=None):
@@ -30,7 +31,7 @@ def allServicesPage(request):
     context = {
         'services': services
     }
-    return render(request, '.html', context)
+    return render(request, 'services.html', context)
 
 
 def servicesByCategoryPage(request, category_name):
@@ -42,14 +43,14 @@ def servicesByCategoryPage(request, category_name):
 
 
 def servicePage(request, id):
-    service = get_object_or_404(Services,pk=id)
+    # service = get_object_or_404(Services,pk=id)
     context = {
-        'service': service
+        'service': "data"
     }
-    return render(request, '.html', context)
+    return render(request, 'service/service.html', context)
 
 
-def createService(request, category):
+def createService(request):
     if request.method == 'GET':
         form = CreateServiceForm()
     elif request.method == 'POST':
@@ -57,20 +58,19 @@ def createService(request, category):
         if form.is_valid():
             if request.user is None or request.user.id is None:
                 raise Http404
-            user = EmailSignInUser.objects.get(user_id=request.user.id)
+            user = EmailSignInUser.objects.get(id=request.user.id)
             serv = Services.objects.createService(
                 user,
-                category,
+                form.cleaned_data['category'],
                 form.cleaned_data['title'],
                 form.cleaned_data['description'],
                 form.cleaned_data['price']
             )
-
             return redirect('service/' + str(serv.pk))
     context = {
         'form': form
     }
 
-    return render(request, '.html', context)
+    return render(request, 'service/create_service.html', context)
 
 

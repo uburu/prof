@@ -39,17 +39,16 @@ class ServiceManager(models.Manager):
     def allServicesByCategory(self,categoryName):
         return self.filter(categories__name=categoryName)
 
-    def createService(self, newAuthor, newCategories, newTitle, newDescription, newPrice):
+    def createService(self, newAuthor, newCategory, newTitle, newDescription, newPrice):
         serv =  Services()
-        t = [Categories.objects.create(name=category) for category in newCategories]
-
+       
         serv.author = newAuthor
+        serv.category = newCategory
         serv.title = newTitle
         serv.description = newDescription
         serv.price = newPrice
         
-        for obj in t:
-            serv.categories.add(obj)
+
         serv.save()
         return serv
 
@@ -61,8 +60,8 @@ class Services(models.Model):
 
     author = models.ForeignKey(SpecialistProfile, on_delete=models.CASCADE)
     buyer = models.ForeignKey(EmailSignInUser, on_delete=models.CASCADE,null=True)
-    categories = models.ManyToManyField(Categories)
-
+    
+    category = models.CharField(max_length=250)
     title = models.CharField(max_length=250)
     description = models.TextField(max_length=1000)
     price = models.IntegerField(default=0)
