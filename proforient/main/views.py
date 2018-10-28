@@ -12,7 +12,7 @@ def index(request):
         context = {
             'usr': specialist, 
         }
-        return render(request, 'index.html', context)
+        return render(request, 'index/index.html', context)
     # если пользователь зашел как студент
     elif Profile.objects.filter(user__email=request.user).exists():
         student = Profile.objects.get(user_id=request.user.id)

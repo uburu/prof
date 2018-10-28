@@ -4,6 +4,7 @@ from modelUtils.emailSignInModel import EmailSignInUser
 
 
 class CreateServiceForm(forms.Form):
+    category = forms.CharField(max_length=250)
     title = forms.CharField(max_length=250)
     description = forms.CharField(widget=forms.Textarea)
     price = forms.IntegerField()
