@@ -7,12 +7,13 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 
-
 from specialist.forms import SignUpForm, SignInForm, ChangeSettingsForm
 from specialist.models import SpecialistProfile
 from user.models import Profile
+from service.models import Services
 from modelUtils.emailSignInModel import EmailSignInUser
 from modelUtils.userUtils import userDefine
+from viewUtils.paginate import _paginate
 
 def specialistSignUp(request):
     if request.method == 'GET':
@@ -114,9 +115,41 @@ def specialistSettings(request):
     }
     return render(request, 'specialist/_specialist_settings.html', context)
 
+
+# TODO показывать сообщение если пока у пользователя нет заказов или созданных услуг
+@login_required
+def myCreatedServices(request):
+    current_usr = userDefine(request)
+    myServices = _paginate(Services.objects.allServicesByAuthor(request.user.id), request)
+    
+    context = {
+        'current_usr': current_usr,
+        'services': myServices
+    }
+    return render(request, 'service/services.html', context)
+
+
+
+# функция используемая для обоих user и specialists
+@login_required
+def myBoughtServices(request):
+    current_usr = userDefine(request)
+    print(list(Services.objects.allBoughtServices(request.user.id)))
+    myServices = _paginate(Services.objects.allBoughtServices(request.user.id), request)
+    
+    context = {
+        'current_usr': current_usr,
+        'services': myServices
+    }
+    return render(request, 'service/services.html', context)
+
+
+
+
+
+
+
 def showSomeProfile(request, id):
-
-
     # получаем данные пользователя с которого хотим зайти на чью-то страницу
     current_usr = userDefine(request)
 

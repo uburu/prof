@@ -6,6 +6,7 @@ from django.http import Http404
 
 from user.forms import SignUpForm, SignInForm, ChangeSettingsForm
 from user.models import Profile
+from viewUtils.paginate import _paginate
 
 def studentSignUp(request):
     if request.method == 'GET':
@@ -111,7 +112,6 @@ def studentSettings(request):
     }
     print(form)
     return render(request, 'user/_student_settings.html', context)
-
 
 
         
