@@ -47,10 +47,10 @@ class ServiceManager(models.Manager):
         serv.title = newTitle
         serv.description = newDescription
         serv.price = newPrice
-        
-
         serv.save()
         return serv
+    def allServicesByAuthor(self, userId):
+        return self.filter(author__user_id=userId)
 
         
 
