@@ -1,0 +1,16 @@
+<!doctype>
+<html>
+	<head>
+		<meta chrset="utf-8">
+		<title>Профориентация</title>
+	</head>
+	<body>
+        <div>
+                {% for user in users %}
+                    <a href="{% url 'showSomeProfile' user.id %}">
+                        {{ user.first_name }} {{ user.second_name }} {{ user.third_name }}
+                    </a>
+                {% endfor %}
+        </div>
+	</body>
+</html>

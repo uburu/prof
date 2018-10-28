@@ -65,7 +65,8 @@ def studentProfile(request):
         raise Http404
     student = Profile.objects.get(user_id=request.user.id)
     context = {
-        'student': student
+        'student': student,
+        'is_me': True
     }
     return render(request, 'user/_student_profile.html', context)
 

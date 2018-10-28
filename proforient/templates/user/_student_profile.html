@@ -15,5 +15,18 @@
             <p>{{ student.about_me }}</p>
         </div>
     </div>
+    {% if is_me %}
+        <div>
+            <a href="{% url 'studentSettings' %}">
+                <input type="button" value="Настройки">
+            </a>
+        </div>
+        <div>
+            <a href="/">
+                <input type="button" value="Список моих услуг">
+            </a>
+        </div>
+    {% else %}
+    {% endif %}
 </div>
 {% endblock %}

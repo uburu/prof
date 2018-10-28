@@ -2,9 +2,9 @@
 {% load static %}
 
 {% block content %}
-    {% if user.is_authenticated %}
+    {% comment %} {% if user.is_authenticated %} {% endcomment %}
         {% block profile_content %}{% endblock %}
-    {% else %}
+    {% comment %} {% else %}
         NOT AUTH
-    {% endif %}
+    {% endif %} {% endcomment %}
 {% endblock %}
