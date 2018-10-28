@@ -65,7 +65,9 @@ def studentProfile(request):
         raise Http404
     student = Profile.objects.get(user_id=request.user.id)
     context = {
-        'student': student
+        'current_usr': student,
+        'usr': student,
+        'is_me': True
     }
     return render(request, 'user/_student_profile.html', context)
 
@@ -104,6 +106,7 @@ def studentSettings(request):
             return redirect('studentProfile')
 
     context = {
+        'current_usr': student,
         'form': form
     }
     print(form)
