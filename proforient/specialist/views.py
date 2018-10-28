@@ -129,7 +129,6 @@ def myCreatedServices(request):
     return render(request, 'service/services.html', context)
 
 
-
 # функция используемая для обоих user и specialists
 @login_required
 def myBoughtServices(request):
@@ -141,12 +140,7 @@ def myBoughtServices(request):
         'current_usr': current_usr,
         'services': myServices
     }
-    return render(request, 'service/services.html', context)
-
-
-
-
-
+    return render(request, 'service/bought_services.html', context)
 
 
 def showSomeProfile(request, id):
