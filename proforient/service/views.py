@@ -85,4 +85,16 @@ def createService(request):
 
     return render(request, 'service/create_service.html', context)
 
+# TODO показывать какое-то сообщение о результате проведения покупки
+def buyService(request, id):
+    current_usr = EmailSignInUser.objects.get(id=request.user.id)
+    print(current_usr)
+    newService = get_object_or_404(Services, pk=id)
+    print(newService)
+    newService.buyer = current_usr
+    newService.buyerCnt += 1
+    newService.save()
+    return redirect('allServicesPage')
 
+
+    

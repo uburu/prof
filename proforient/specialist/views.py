@@ -116,7 +116,7 @@ def specialistSettings(request):
     return render(request, 'specialist/_specialist_settings.html', context)
 
 
-# TODO показывать сообщение если пока у пользователя нет заказов
+# TODO показывать сообщение если пока у пользователя нет заказов или созданных услуг
 @login_required
 def myCreatedServices(request):
     current_usr = userDefine(request)
@@ -130,19 +130,18 @@ def myCreatedServices(request):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+# функция используемая для обоих user и specialists
+@login_required
+def myBoughtServices(request):
+    current_usr = userDefine(request)
+    print(list(Services.objects.allBoughtServices(request.user.id)))
+    myServices = _paginate(Services.objects.allBoughtServices(request.user.id), request)
+    
+    context = {
+        'current_usr': current_usr,
+        'services': myServices
+    }
+    return render(request, 'service/services.html', context)
 
 
 

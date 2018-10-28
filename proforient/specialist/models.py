@@ -4,7 +4,8 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import User # заменен на EmailSignInUser
 from django.core.exceptions import ObjectDoesNotExist
-from modelUtils.emailSignInModel import EmailSignInUser # кастомный User для аутентификации 
+# from service.models import Services
+from modelUtils.emailSignInModel import EmailSignInUser
 
 # Create your models here.
 
@@ -13,6 +14,9 @@ class SpecialistProfileManager(models.Manager):
     def create_user(self, Login, email, password, first_name, second_name, third_name):
         user = EmailSignInUser.objects.create_user(Login, email, password) 
         return self.create(user=user, first_name=first_name, second_name=second_name, third_name=third_name,is_specialist=True)
+
+    # def allBoughtServices(self):
+    #     return self.myServices.all()
 
 
 class SpecialistProfile(models.Model):
@@ -24,4 +28,6 @@ class SpecialistProfile(models.Model):
     education = models.TextField(default=None, null=True)
     workExpirience = models.TextField(default=None, null=True)
     about_me = models.TextField(default=None, null=True)
+
+    # myServices = models.ForeignKey(Services, on_delete=models.CASCADE)
     is_specialist = models.BooleanField(default=True)

@@ -1,5 +1,4 @@
 from django.db import models
-from user.models import Profile
 from specialist.models import SpecialistProfile
 from modelUtils.emailSignInModel import EmailSignInUser
 
@@ -49,8 +48,12 @@ class ServiceManager(models.Manager):
         serv.price = newPrice
         serv.save()
         return serv
+
     def allServicesByAuthor(self, userId):
         return self.filter(author__user_id=userId)
+    
+    def allBoughtServices(self, userId):
+        return self.filter(buyer__id=userId)
 
         
 
