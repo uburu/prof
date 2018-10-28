@@ -4,19 +4,10 @@
 {% block service %}
 
 <div class="row">
-    <div class="col-lg-4 col-md-4 mx-auto mt-4 mx-auto"> 
-        <div class="card">
-            <h2 class="card-header">Страница сервиса</h2>
-
-            <div class="card-body">
-                <h3 class="card-title">Название</h3>
-                <p class="card-subtitle mb-2 text-muted">Категория</p>
-                <div class="dropdown-divider"></div>
-                <p class="card-text">Подробное описание услуги</p>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="btn btn-primary orange">Купить</a>
-            </div>  
-        </div>
+    <div class="col-lg-5 col-md-5 mx-auto mt-5 mx-auto"> 
+        {% for service in services %}
+            {% include "service/_service_card.html" %}
+        {% endfor %}
     </div>
 <div class="row">
 

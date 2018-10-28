@@ -1,0 +1,19 @@
+<div class="card">
+    <h2 class="card-header">{{ service.title }}</h2>
+    <div class="card-body">
+        <h3 class="card-title">{{ service.description }}</h3>
+        <div class="dropdown-divider"></div>
+        <p class="card-text">Категории: {{ service.category }}</p>
+        <p class="card-text">Цена: {{ service.price }}</p>
+        <p class="card-text">Автор: 
+            <a href="{% url 'showSomeProfile' service.author.user.id %}">
+                    {{ service.author.second_name }}
+                    {{ service.author.first_name }}
+                    {{ service.author.third_name }}
+            </a>
+        </p>
+
+        <div class="dropdown-divider"></div>
+        <a href="#" class="btn btn-primary orange">Купить</a>
+    </div>  
+</div>

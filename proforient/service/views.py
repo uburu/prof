@@ -1,8 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from service.models import Services, Categories, Comments
 from service.forms import CreateServiceForm
 from modelUtils.emailSignInModel import EmailSignInUser
 from django.http import Http404
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
+from specialist.models import SpecialistProfile
+from user.models import Profile
+from modelUtils.emailSignInModel import EmailSignInUser
+from modelUtils.userUtils import userDefine
 # Create your views here.
 
 def _paginate(objects_list, request, page=None):
@@ -27,25 +33,31 @@ def _paginate(objects_list, request, page=None):
 
 
 def allServicesPage(request):
+    current_usr = userDefine(request)
     services = _paginate(Services.objects.allServices(),request)
     context = {
+        'current_usr': current_usr,
         'services': services
     }
-    return render(request, 'services.html', context)
+    return render(request, 'service/services.html', context)
 
 
 def servicesByCategoryPage(request, category_name):
+    current_usr = userDefine(request)
     services = _paginate(Services.objects.allServicesByCategory(categoryName=category_name),request)
     context = {
+        'current_usr': current_usr,
         'services': services
     }
     return render(request, '.html', context)
 
 
 def servicePage(request, id):
-    # service = get_object_or_404(Services,pk=id)
+    current_usr = userDefine(request)
+    service = get_object_or_404(Services,pk=id)
     context = {
-        'service': "data"
+        'current_usr': current_usr,
+        'service': service
     }
     return render(request, 'service/service.html', context)
 
@@ -58,7 +70,7 @@ def createService(request):
         if form.is_valid():
             if request.user is None or request.user.id is None:
                 raise Http404
-            user = EmailSignInUser.objects.get(id=request.user.id)
+            user = SpecialistProfile.objects.get(user_id=request.user.id)
             serv = Services.objects.createService(
                 user,
                 form.cleaned_data['category'],
@@ -66,7 +78,7 @@ def createService(request):
                 form.cleaned_data['description'],
                 form.cleaned_data['price']
             )
-            return redirect('service/' + str(serv.pk))
+            return redirect('servicePage', id=str(serv.pk))
     context = {
         'form': form
     }

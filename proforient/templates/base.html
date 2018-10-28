@@ -8,7 +8,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>AskIvan</title>
+        <title>Профориентация</title>
 
         <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
@@ -33,7 +33,7 @@
                         <a class="nav-link active" href="#">Тесты <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Каталог</a>
+                        <a class="nav-link active" href="{% url 'allServicesPage' %}">Каталог</a>
                     </li>     
                 </ul>
 
@@ -42,26 +42,39 @@
                 </form> {% endcomment %}
 
                 {% if user.is_authenticated %}
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle white-text" href="" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ specialist.first_name }} {{ specialist.second_name }} {{ student.first_name }} {{ student.second_name }}</a>
-                        
-                        <div class="dropdown-menu" aria-labelledby="dropdown03">
-                            <a class="dropdown-item" href="#">Профиль</a>
-                            <a class="dropdown-item" href="#">Настройки</a>
-                            <a class="dropdown-item" href="/signout">Выйти</a>
+                    {% comment %} тут короче херня с названиями переменных из контекста, так как от этого base наследуются еще страницы профилей и настроек, 
+                    и в их вьюхах нет переменной usr то никакие имена не отображаются нужно везде сделать одно название usr {% endcomment %}
+                    {% if current_usr.is_specialist %}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle white-text" href="{% url 'specialistProfile' %}" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ current_usr.first_name }} {{ current_usr.second_name }}</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown03">
+                                <a class="dropdown-item" href="{% url 'specialistProfile' %}">Профиль</a>
+                                <a class="dropdown-item" href="{% url 'specialistSettings' %}">Настройки</a>
+                                <a class="dropdown-item" href="{% url 'signOut' %}">Выйти</a>
+                            </div>
                         </div>
-                    </div>
+                    {% else %}
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle white-text" href="{% url 'studentProfile' %}" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ current_usr.first_name }} {{ current_usr.second_name }}</a>
+                            
+                            <div class="dropdown-menu" aria-labelledby="dropdown03">
+                                <a class="dropdown-item" href="{% url 'studentProfile' %}">Профиль</a>
+                                <a class="dropdown-item" href="{% url 'studentSettings' %}">Настройки</a>
+                                <a class="dropdown-item" href="{% url 'signOut' %}">Выйти</a>
+                            </div>
+                        </div>
+                    {% endif %}
                 {% else %}
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle btn btn-primary btn-md orange white-text mr-3" href="" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Зарегистрироваться</a>
                             
                         <div class="dropdown-menu" aria-labelledby="dropdown03">
-                            <a class="dropdown-item" href="/student_signup/">Я студент</a>
-                            <a class="dropdown-item" href="/specialist_signup/">Я специалист</a>
+                            <a class="dropdown-item" href="{% url 'studentSignUp' %}">Я студент</a>
+                            <a class="dropdown-item" href="{% url 'specialistSignUp' %}">Я специалист</a>
                         </div>
    
                     </div>
-                    <a class="nav-link btn btn-primary btn-md green" href="/signin/" role="button">Войти</a>
+                    <a class="nav-link btn btn-primary btn-md green" href="{% url 'signIn' %}" role="button">Войти</a>
 
                     
                 {% endif %}

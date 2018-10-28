@@ -5,11 +5,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from django.core.exceptions import ObjectDoesNotExist
 
 
 from specialist.forms import SignUpForm, SignInForm, ChangeSettingsForm
 from specialist.models import SpecialistProfile
 from user.models import Profile
+from modelUtils.emailSignInModel import EmailSignInUser
+from modelUtils.userUtils import userDefine
 
 def specialistSignUp(request):
     if request.method == 'GET':
@@ -66,7 +69,9 @@ def specialistProfile(request):
     if not specialist.is_specialist:
         raise Http404
     context = {
-        'specialist': specialist
+        'current_usr': specialist,
+        'usr': specialist,
+        'is_me': True
     }
     return render(request, 'specialist/_specialist_profile.html', context)
 
@@ -104,24 +109,59 @@ def specialistSettings(request):
             specialist.save()
             return redirect('specialistProfile')
     context = {
+        'current_usr': specialist,
         'form': form
     }
     return render(request, 'specialist/_specialist_settings.html', context)
 
 def showSomeProfile(request, id):
-    # если пользователь вошел как специалист
-    if SpecialistProfile.objects.filter(user_id=id).exists():
-        specialist = SpecialistProfile.objects.get(user_id=id)
-        context = {
-            'specialist': specialist, 
-        }
-        return render(request, 'specialist_profile.html', context)
-    # если пользователь зашел как студент
-    elif Profile.objects.filter(user_id=id).exists():
-        student = Profile.objects.get(user_id=id)
-        context = {
-            'student': student,
-        }
-        return render(request, 'student_profile.html', context)
+
+
+    # получаем данные пользователя с которого хотим зайти на чью-то страницу
+    current_usr = userDefine(request)
+
+    # если пользователь хочет зайти не на свою страницу
+    # то на страницу профиля передаем флаг и не показываем кнопки настроек и создания услуги
+    if request.user.id != id:
+        # если пользователь пытается зайти на страницу специалиста
+        if SpecialistProfile.objects.filter(user_id=id).exists():
+            specialist = SpecialistProfile.objects.get(user_id=id)
+            context = {
+                'current_usr': current_usr,
+                'usr': specialist,
+                'is_me': False 
+            }
+            return render(request, 'specialist/_specialist_profile.html', context)
+        # если пользователь пытается зайти на страницу студента
+        elif Profile.objects.filter(user_id=id).exists():
+            student = Profile.objects.get(user_id=id)
+            context = {
+                'current_usr': current_usr,
+                'usr': student,
+                'is_me': False 
+            }
+            return render(request, 'user/_student_profile.html', context)
+        else:
+            raise ObjectDoesNotExist # говорим что пользователя не существует
+    # если пользователь пытается зайти на свою страницу
+    else: 
+        # если пользователь является специалистом
+        if SpecialistProfile.objects.filter(user_id=id).exists():
+            specialist = SpecialistProfile.objects.get(user_id=id)
+            context = {
+                'current_usr': current_usr,
+                'usr': specialist, 
+                'is_me': True
+            }
+            return render(request, 'specialist/_specialist_profile.html', context)
+        # если пользователь является студентом
+        elif Profile.objects.filter(user_id=id).exists():
+            student = Profile.objects.get(user_id=id)
+            context = {
+                'current_usr': current_usr,
+                'usr': student,
+                'is_me': True
+            }
+            return render(request, 'user/_student_profile.html', context)
 
 # TODO в specialistProfile сделать проверки на DoesNotExist пользователя

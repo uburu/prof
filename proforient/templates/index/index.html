@@ -48,7 +48,16 @@
     <p class="lead">Мы хотим проломить преграды перед профессии твоей мечты </p>
     <hr class="my-4">
     <p>Начни пользоваться сервисом уже сейчас</p>
-    <a class="btn btn-primary btn-lg orange" href="/student_signup/" role="button">Зарегистрироваться</a>
+    <div class="nav-item dropdown">
+        <a class="btn btn-primary btn-lg orange dropdown-toggle" href="" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Зарегистрироваться</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown03">
+            <a class="dropdown-item" href="{% url 'studentSignUp' %}">Я студент</a>
+            <a class="dropdown-item" href="{% url 'specialistSignUp' %}">Я специалист</a>
+        </div>
+    </div>
+
+
+    
 </div>
 
 
