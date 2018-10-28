@@ -1,0 +1,104 @@
+{% load static %}
+
+<!doctype>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Профориентация</title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+
+        <!-- Custom styles for this template -->
+        <link href="{% static 'css/custom/prof.css' %}" rel="stylesheet">
+        
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm navbar-dark blue fixed-top">
+            <a class="navbar-brand" href="/">Профориентация</a>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsExample03">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'allServicesPage' %}">Каталог</a>
+                    </li>     
+                </ul>
+
+                
+
+                {% if user.is_authenticated %}
+                    {% comment %} тут короче херня с названиями переменных из контекста, так как от этого base наследуются еще страницы профилей и настроек, 
+                    и в их вьюхах нет переменной usr то никакие имена не отображаются нужно везде сделать одно название usr {% endcomment %}
+                    {% if current_usr.is_specialist %}
+                        <div class="btn-group">
+                            <a class="dropdown-toggle btn btn-primary btn-md green mr-5" href="{% url 'specialistProfile' %}" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ current_usr.first_name }} {{ current_usr.second_name }}</a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown03">
+                                <a class="dropdown-item" href="{% url 'specialistProfile' %}">Профиль</a>
+                                <a class="dropdown-item" href="{% url 'specialistSettings' %}">Настройки</a>
+                                <a class="dropdown-item" href="{% url 'createService' %}">Создать услугу</a>
+                                <a class="dropdown-item" href="{% url 'myCreatedServices' %}">Мои услуги</a>
+                                <a class="dropdown-item" href="{% url 'myBoughtServices' %}">Мои покупки</a>
+                                <a class="dropdown-item" href="{% url 'signOut' %}">Выйти</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="btn-group">
+                            <a class="dropdown-toggle btn btn-primary btn-md green mr-5" href="{% url 'studentProfile' %}" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ current_usr.first_name }} {{ current_usr.second_name }}</a>
+                            
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown03">
+                                <a class="dropdown-item" href="{% url 'studentProfile' %}">Профиль</a>
+                                <a class="dropdown-item" href="{% url 'studentSettings' %}">Настройки</a>
+                                <a class="dropdown-item" href="{% url 'myBoughtServices' %}">Мои покупки</a>
+                                <a class="dropdown-item" href="{% url 'signOut' %}">Выйти</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="btn-group">
+                        <a class="dropdown-toggle btn btn-primary btn-md orange white-text mr-3" href="" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Зарегистрироваться</a>
+                            
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown03">
+                            <a class="dropdown-item" href="{% url 'studentSignUp' %}">Я студент</a>
+                            <a class="dropdown-item" href="{% url 'specialistSignUp' %}">Я специалист</a>
+                        </div>
+   
+                    </div>
+                    <a class="nav-link btn btn-primary btn-md green" href="{% url 'signIn' %}" role="button">Войти</a>
+
+                    
+                {% endif %}
+                
+
+            </div>
+        </nav>
+
+        {% block content %}{% endblock %}
+
+    <footer class="footer bg-dark mt-3">
+        <div class="container">
+            <div class="row" id="navbarsExample08">
+                <a class="nav-link white-text" href="#">Профориентация <span class="sr-only">(current)</span></a>
+                <a class="nav-link white-text" href="#">О нас</a>
+            </div>
+        </div>
+    </footer>
+
+    </body>
+
+
+    
+
+    <script src="{% static 'js/bootstrap/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+</html>

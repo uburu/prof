@@ -1,0 +1,86 @@
+{% extends "index/index_base.html" %}
+{% load static %}
+
+{% block index %}
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+        <div class="carousel-item active index-img">
+            <img class="d-block w-100" src="{% static 'img/learn.jpg' %}" alt="Учись новому" >
+            <div class="carousel-caption ">
+                <h2 class="black-text white-background">Учись новому</h2>
+                <p class="black-text white-background">Открывай для себя что-то новое с Профориентацией</p>
+            </div>
+        </div>
+        <div class="carousel-item index-img">
+            <img class="d-block w-100" src="{% static 'img/make-task.jpg' %}" alt="Учись новому">
+            <div class="carousel-caption">
+                <h2 class="black-text white-background">Создавай свои услуги</h2>
+                <p class="black-text white-background">Предлагай свои услуги и делись ими со всеми</p>  
+            </div>  
+        </div>
+        <div class="carousel-item index-img">
+            <img class="d-block w-100" src="{% static 'img/make-money.jpg' %}" alt="Учись новому">
+            <div class="carousel-caption">
+                <h2 class="black-text white-background">Зарабатывай с Профориентацией</h2>
+                <p class="black-text white-background">Получай прибыль за свои услуги</p> 
+            </div>
+        </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Туда</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Сюда</span>
+        </a>
+    </div>
+
+
+
+<div class="jumbotron ">
+    <h1 class="display-4">Помогаем найти дело своей мечты</h1>
+    <p class="lead">Мы хотим проломить преграды перед профессии твоей мечты </p>
+    <hr class="my-4">
+    <p>Начни пользоваться сервисом уже сейчас</p>
+    <div class="nav-item dropdown">
+        <a class="btn btn-primary btn-lg orange dropdown-toggle" href="" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Зарегистрироваться</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown03">
+            <a class="dropdown-item" href="{% url 'studentSignUp' %}">Я студент</a>
+            <a class="dropdown-item" href="{% url 'specialistSignUp' %}">Я специалист</a>
+        </div>
+    </div>
+
+
+    
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4 mx-auto" style="text-align: center;">
+            <a href="/services/" ><img class="rounded-circle mb-4" src="{% static 'img/spec.jpg' %}" alt="Тут была иконка!" width="140" height="140"></a>
+            <h3>Услуги специалистов</h3>
+            <p>Мы предлагаем воспользоваться услугами, которые были разработаны специально для тебя, нашими специалистами</p>
+        </div>
+        <!--
+        <div class="col-lg-4" style="text-align: center;">
+            <img class="rounded-circle mb-4" src="{% static 'img/catalog-edu.jpg' %}" alt="Тут была иконка!" width="140" height="140">
+            <h3>Каталог образовательных курсов</h3>
+            <p>Здесь, мы собрали для тебя информацию об образовательных программах и курсах. Они помогут развить те умения и навыки, которых тебе не хватает для будущей профессии.</p>
+        </div>
+        <div class="col-lg-4" style="text-align: center;">
+            <img class="rounded-circle mb-4" src="{% static 'img/professions.jpg' %}" alt="Тут была иконка!" width="140" height="140">
+            <h3>Профессии</h3>
+            <p>В этом разделе собран общирный каталог профессий. В нём ты сможешь узнать всё про профессию твоей мечты.</p>
+        </div>
+        -->
+    </div>
+</div>
+
+{% endblock %}
