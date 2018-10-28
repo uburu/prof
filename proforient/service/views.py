@@ -63,6 +63,7 @@ def servicePage(request, id):
 
 
 def createService(request):
+    current_usr = userDefine(request)
     if request.method == 'GET':
         form = CreateServiceForm()
     elif request.method == 'POST':
@@ -80,10 +81,11 @@ def createService(request):
             )
             return redirect('servicePage', id=str(serv.pk))
     context = {
+        'current_usr': current_usr,
         'form': form
     }
-
     return render(request, 'service/create_service.html', context)
+
 
 # TODO показывать какое-то сообщение о результате проведения покупки
 def buyService(request, id):

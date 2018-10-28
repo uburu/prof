@@ -2,31 +2,31 @@
 {% load static %}
 
 {% block profile_content %}
-<div class="container mt-5">
+<div class="container mt-7">
     <div class="row">
         <div class="col-lg-4 mb-5">
-           <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{% static 'img/ivan.jpg' %}" alt="Generic placeholder image" width="140" height="140"></div>
-           <h4 class="mb-4" style="text-align: center;">{{ usr.second_name }} {{ usr.first_name }} {{ usr.third_name }}</h4>
-           <p class="mb-4" style="text-align: center;">Школа, образоваине: <a href="#">{{ usr.education }}</a></p>
-           <p style="text-align: center;">Профессия мечты: <a href="#">{{ usr.dreamWork }}</a></p>
+            <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{% static 'img/ivan.jpg' %}" alt="Generic placeholder image" width="140" height="140"></div>
+            <h4 class="mb-4" style="text-align: center;">{{ usr.second_name }} {{ usr.first_name }} {{ usr.third_name }}</h4>
+            <p class="mb-4" style="text-align: center;">Школа, образоваине: <a href="#">{{ usr.education }}</a></p>
+            <p style="text-align: center;">Профессия мечты: <a href="#">{{ usr.dreamWork }}</a></p>
+            {% if is_me %}
+                <div class="list-group">
+                    <a class="list-group-item list-group-item-action" href="{% url 'studentSettings' %}">
+                        Настройки
+                    </a>
+                    
+                    <a class="list-group-item list-group-item-action" href="{% url 'myBoughtServices' %}">
+                        Мои купленные услуги
+                    </a>
+                </div>
+                
+            {% endif %}
         </div>
         <div class="col-lg-7">
             <h1 class="mb-3">Обо мне</h1>
             <p>{{ usr.about_me }}</p>
         </div>
     </div>
-    {% if is_me %}
-        <div>
-            <a href="{% url 'studentSettings' %}">
-                <input type="button" value="Настройки">
-            </a>
-        </div>
-        <div>
-            <a href="{% url 'myBoughtServices' %}">
-                <input type="button" value="Мои купленные услуги">
-            </a>
-        </div>
-    {% else %}
-    {% endif %}
+    
 </div>
 {% endblock %}
