@@ -12,6 +12,7 @@ from specialist.forms import SignUpForm, SignInForm, ChangeSettingsForm
 from specialist.models import SpecialistProfile
 from user.models import Profile
 from modelUtils.emailSignInModel import EmailSignInUser
+from modelUtils.userUtils import userDefine
 
 def specialistSignUp(request):
     if request.method == 'GET':
@@ -117,12 +118,7 @@ def showSomeProfile(request, id):
 
 
     # получаем данные пользователя с которого хотим зайти на чью-то страницу
-    current_usr = EmailSignInUser()
-    if SpecialistProfile.objects.filter(user__email=request.user).exists():
-        current_usr = SpecialistProfile.objects.get(user_id=request.user.id)
-
-    elif Profile.objects.filter(user__email=request.user).exists():
-        current_usr = Profile.objects.get(user_id=request.user.id)
+    current_usr = userDefine(request)
 
     # если пользователь хочет зайти не на свою страницу
     # то на страницу профиля передаем флаг и не показываем кнопки настроек и создания услуги

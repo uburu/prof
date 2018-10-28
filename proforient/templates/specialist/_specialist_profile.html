@@ -22,11 +22,24 @@
             </a>
         </div>
         <div>
+            <a href="{% url 'createService' %}">
+                <input type="button" value="Создать услугу">
+            </a>
+        </div>
+        <div>
             <a href="/">
-                <input type="button" value="Список моих услуг">
+                <input type="button" value="Мои созданные услуги">
+            </a>
+            <a href="/">
+                <input type="button" value="Мои купленные услуги">
             </a>
         </div>
     {% else %}
     {% endif %}
 </div>
 {% endblock %}
+
+
+
+
+createService
