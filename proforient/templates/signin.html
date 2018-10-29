@@ -5,6 +5,7 @@
 		<title>Профориентация</title>
 	</head>
 	<body>
+		<h2>Вход</h2>
             <form action="{% url 'studentSignUp' %}" method="post">
                 {% csrf_token %}
                 {{ form }}

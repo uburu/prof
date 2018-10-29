@@ -25,7 +25,7 @@ class SignUpForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         if cleaned_data.get('password') != cleaned_data.get('password_confirmation'):
-            raise forms.ValidationError('Пароли не совпадают:(')
+            self.add_error('password_confirmation', 'Пароли не совпадают:(')
         return self.cleaned_data
 
 
