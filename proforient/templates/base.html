@@ -12,6 +12,8 @@
 
         <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/custom/slick.css' %}">
+        <link rel="stylesheet" href="{% static 'css/custom/slick-theme.css' %}">
 
         <!-- Custom styles for this template -->
         <link href="{% static 'css/custom/prof.css' %}" rel="stylesheet">
@@ -84,21 +86,19 @@
         </nav>
 
         {% block content %}{% endblock %}
+        <footer>
+            <nav class="navbar navbar-fixed navbar-dark bg-dark">
+                <div class="row" id="navbarsExample08">
+                    <a class="nav-link white-text" href="#">Профориентация <span class="sr-only">(current)</span></a>
+                    <a class="nav-link white-text" href="#">О нас</a>
+                </div>
+            </nav>
+        </footer>
 
     </body>
-
-
-    <footer>
-    <!-- простой футер -->
-        <nav class="navbar navbar-fixed navbar-dark bg-dark">
-            <div class="row" id="navbarsExample08">
-                <a class="nav-link white-text" href="#">Профориентация <span class="sr-only">(current)</span></a>
-                <a class="nav-link white-text" href="#">О нас</a>
-            </div>
-        </nav>
-    </footer>
 
     <script src="{% static 'js/bootstrap/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/slick/slick.min.js' %}"></script>
 </html>
