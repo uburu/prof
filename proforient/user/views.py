@@ -29,6 +29,8 @@ def studentSignUp(request):
     }
     return render(request, 'user/student_signup.html', context)
 
+
+#TODO валидировать успешность входа можно на уровне формы чтобы можно было рейзить ошибку и показывать ее сразу на фронте
 def signIn(request):
     if request.method == 'GET':
         form = SignInForm()
