@@ -49,7 +49,7 @@ def servicesByCategoryPage(request, category_name):
         'current_usr': current_usr,
         'services': services
     }
-    return render(request, '.html', context)
+    return render(request, 'service/services.html', context)
 
 
 def servicePage(request, id):

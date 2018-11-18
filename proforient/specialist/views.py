@@ -19,15 +19,19 @@ def specialistSignUp(request):
     if request.method == 'GET':
         form = SignUpForm()
     elif request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
+            print(request.FILES)
+            print(form)
+            print(form.cleaned_data['avatar'])
             specialist = SpecialistProfile.objects.create_user(
                 Login = form.cleaned_data['Login'],
                 email = form.cleaned_data['email'],
                 password = form.cleaned_data['password'],
                 first_name = form.cleaned_data['first_name'],
                 second_name = form.cleaned_data['second_name'],
-                third_name = form.cleaned_data['third_name']
+                third_name = form.cleaned_data['third_name'],
+                avatar = form.cleaned_data['avatar']
             )
             login(request, specialist.user)
             return redirect('/')
@@ -35,7 +39,7 @@ def specialistSignUp(request):
         'form': form
     }
     return render(request, 'specialist/specialist_signup.html', context)
-
+    
 def specialistSignIn(request):
     if request.method == 'GET':
         form = SignInForm()
@@ -111,7 +115,8 @@ def specialistSettings(request):
             return redirect('specialistProfile')
     context = {
         'current_usr': specialist,
-        'form': form
+        'form': form,
+        'specialist': specialist
     }
     return render(request, 'specialist/_specialist_settings.html', context)
 

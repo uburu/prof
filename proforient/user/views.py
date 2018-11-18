@@ -12,15 +12,18 @@ def studentSignUp(request):
     if request.method == 'GET':
         form = SignUpForm()
     elif request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
+            print(form)
+            print(form.cleaned_data['avatar'])
             profile = Profile.objects.create_user(
                 Login = form.cleaned_data['Login'],
                 email = form.cleaned_data['email'],
                 password = form.cleaned_data['password'],
                 first_name = form.cleaned_data['first_name'],
                 second_name = form.cleaned_data['second_name'],
-                third_name = form.cleaned_data['third_name']
+                third_name = form.cleaned_data['third_name'],
+                avatar = form.cleaned_data['avatar']
             )
             login(request, profile.user)
             return redirect('/')
@@ -62,6 +65,8 @@ def signOut(request):
     logout(request)
     return redirect('/')
 
+
+#TODO сделать проверки на то что если пользователь хочет посмотреть не свой профиль студента(как во вьюхе specialist)
 @login_required
 def studentProfile(request):
     if request.user is None or request.user.id is None:
@@ -76,7 +81,7 @@ def studentProfile(request):
 
 @login_required
 def studentSettings(request):
-    if request.user is None or request.user.id is None:
+    if request.user is None or request.user.id is None: # TODO если пользователь незалогинен показывать сообщение а не 404
         raise Http404
     student = Profile.objects.get(user_id=request.user.id)
 
@@ -93,7 +98,7 @@ def studentSettings(request):
             'dreamWork': student.dreamWork,
             'about_me': student.about_me
         })
-    elif request.method == 'POST':
+    elif request.method == 'POST': #TODO вынести изменение данных в менеджер
         form = ChangeSettingsForm(request.POST)
         if form.is_valid():
             student.user.email = form.cleaned_data['email']
@@ -110,7 +115,8 @@ def studentSettings(request):
 
     context = {
         'current_usr': student,
-        'form': form
+        'form': form,
+        'student': student
     }
     print(form)
     return render(request, 'user/_student_settings.html', context)

@@ -11,12 +11,9 @@ from modelUtils.emailSignInModel import EmailSignInUser
 
 class SpecialistProfileManager(models.Manager):
 
-    def create_user(self, Login, email, password, first_name, second_name, third_name):
+    def create_user(self, Login, email, password, first_name, second_name, third_name, avatar):
         user = EmailSignInUser.objects.create_user(Login, email, password) 
-        return self.create(user=user, first_name=first_name, second_name=second_name, third_name=third_name,is_specialist=True)
-
-    # def allBoughtServices(self):
-    #     return self.myServices.all()
+        return self.create(user=user, first_name=first_name, second_name=second_name, third_name=third_name, avatar=avatar,is_specialist=True)
 
 
 class SpecialistProfile(models.Model):
@@ -28,6 +25,5 @@ class SpecialistProfile(models.Model):
     education = models.TextField(default=None, null=True)
     workExpirience = models.TextField(default=None, null=True)
     about_me = models.TextField(default=None, null=True)
-
-    # myServices = models.ForeignKey(Services, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='photos', null=True)
     is_specialist = models.BooleanField(default=True)

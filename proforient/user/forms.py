@@ -9,6 +9,7 @@ class SignUpForm(forms.Form):
     first_name = forms.CharField(max_length=100)
     second_name = forms.CharField(max_length=100)
     third_name = forms.CharField(max_length=100)
+    avatar = forms.FileField(required=False)
     password = forms.CharField(widget=forms.PasswordInput())
     password_confirmation = forms.CharField(widget=forms.PasswordInput())
 
@@ -42,6 +43,5 @@ class ChangeSettingsForm(forms.Form):
     education = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
     dreamWork = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
     about_me = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
-
 
 

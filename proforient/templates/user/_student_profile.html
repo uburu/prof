@@ -5,7 +5,11 @@
 <div class="container mt-5 h-100">
     <div class="row">
         <div class="col-lg-4 mb-5">
-            <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{% static 'img/ivan.jpg' %}" alt="Generic placeholder image" width="140" height="140"></div>
+            {% if usr.avatar %}
+                <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{{ usr.avatar.url }}" alt="Generic placeholder image" width="140" height="140"></div>
+            {% else %}
+                <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{% static 'img/ivan.jpg' %}" alt="Generic placeholder image" width="140" height="140"></div>
+            {% endif %}
             <h4 class="mb-4" style="text-align: center;">{{ usr.second_name }} {{ usr.first_name }} {{ usr.third_name }}</h4>
             <p class="mb-4" style="text-align: center;">Школа, образоваине: <a href="#">{{ usr.education }}</a></p>
             <p style="text-align: center;">Профессия мечты: <a href="#">{{ usr.dreamWork }}</a></p>
@@ -14,12 +18,10 @@
                     <a class="list-group-item list-group-item-action" href="{% url 'studentSettings' %}">
                         Настройки
                     </a>
-                    
                     <a class="list-group-item list-group-item-action" href="{% url 'myBoughtServices' %}">
                         Мои купленные услуги
                     </a>
                 </div>
-                
             {% endif %}
         </div>
         <div class="col-lg-7">
@@ -27,6 +29,5 @@
             <p>{{ usr.about_me }}</p>
         </div>
     </div>
-    
 </div>
 {% endblock %}

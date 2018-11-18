@@ -8,7 +8,12 @@
         <div class="col-lg-4 mb-5">
             <form action="{% url 'studentSettings' %}" method="post">
                 {% csrf_token %}
-                <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{% static 'img/ivan.jpg' %}" alt="Generic placeholder image" width="140" height="140"></div>
+
+                    {% if student.avatar %}
+                        <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{{ student.avatar.url }}" alt="Generic placeholder image" width="140" height="140"></div>
+                    {% else %}
+                        <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{% static 'img/ivan.jpg' %}" alt="Generic placeholder image" width="140" height="140"></div>
+                    {% endif %}
                     <div class="form-group">
                         <label for="id_first_name">Имя</label>
                         <input type="text" class="form-control" name="first_name" value="{{ form.first_name.value }}" maxlength="100" id="id_first_name">
