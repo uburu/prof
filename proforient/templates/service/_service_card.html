@@ -6,7 +6,9 @@
 
         <div class="d-flex bd-highlight">
             <div class="p-2 bd-highlight">
-                <p class="card-text">{{ service.category }}</p>
+                <a href="{% url 'servicesByCategoryPage' service.category.name %}">
+                    <p class="card-text">{{ service.category }}</p>
+                </a>
             </div>
         
             <div class="mr-auto p-2 bd-highlight">

@@ -4,12 +4,15 @@
 {% block service %}
 
 <br>
-<div class="row">
-    <div class="col-lg-10 col-md-10 mx-auto mt-5 mx-auto"> 
-        <h2>Каталог услуг</h2>
-        {% for service in services %}
-            {% include "service/_service_card.html" %}
-        {% endfor %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-8">
+            <h2>Каталог услуг</h2>
+            {% for service in services %}
+                {% include "service/_service_card.html" %}
+            {% endfor %}
+        </div>
+        {% include "sideBar.html" %}
     </div>
 </div>
 
