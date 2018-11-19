@@ -55,6 +55,8 @@ def servicesByCategoryPage(request, category_name):
     context = {
          'current_usr': current_usr,
          'services': services,
+
+
          'categories': categories
     }
     return render(request, 'service/services.html', context)
