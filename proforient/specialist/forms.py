@@ -28,6 +28,7 @@ class SignUpForm(forms.Form):
         if cleaned_data.get('password') != cleaned_data.get('password_confirmation'):
             self.add_error('password_confirmation', 'Пароли не совпадают:(')
         return self.cleaned_data
+    
 
 
 class SignInForm(forms.Form):
@@ -43,6 +44,14 @@ class ChangeSettingsForm(forms.Form):
     education = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
     workExpirience = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
     about_me = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
+    avatar = forms.FileField(required=False)
+
+    def harvestingFormdata(self):
+        newData = {}
+        for key in self.cleaned_data.keys():
+            if self.cleaned_data[key] != '' and self.cleaned_data[key] != None:
+                newData[key] = self.cleaned_data[key]
+        return newData
 
 
 

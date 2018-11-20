@@ -24,3 +24,14 @@ class Profile(models.Model):
     about_me = models.TextField(default=None, null=True)
     avatar = models.ImageField(upload_to='photos', null=True)
     is_specialist = models.BooleanField(default=False)
+
+    def changeUserData(self, data):
+        if data.get('email') and data['email'] != '':
+            self.user.email = data.pop('email')
+        if data.get('Login') and data['Login'] != '':
+            self.user.username = data.pop('Login')
+        for key in data.keys():
+            self.__dict__[key] = data[key]
+        self.user.save()
+        self.save()
+        return self

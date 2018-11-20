@@ -85,33 +85,13 @@ def specialistSettings(request):
     if request.user is None or request.user.id is None:
         raise Http404
     specialist = SpecialistProfile.objects.get(user_id=request.user.id)
-
-    # initial - форма заполняется при загрузке. ключ - имя поля в форме. (все равно что <intput value="значение">)
-    # заполнить форму исходными данными нужно для того, чтобы поля которые пользователь не изменял не заполнились None
     if request.method == 'GET':
-        form = ChangeSettingsForm(initial={
-            'email': specialist.user.email,
-            'Login': specialist.user.username,
-            'first_name': specialist.first_name,
-            'second_name': specialist.second_name,
-            'third_name': specialist.third_name,
-            'education': specialist.education,
-            'workExpirience': specialist.workExpirience,
-            'about_me': specialist.about_me
-        })
+        form = ChangeSettingsForm()
     elif request.method == 'POST':
-        form = ChangeSettingsForm(request.POST)
+        form = ChangeSettingsForm(request.POST, request.FILES)
         if form.is_valid():
-            specialist.user.email = form.cleaned_data['email']
-            specialist.user.username = form.cleaned_data['Login']
-            specialist.first_name = form.cleaned_data['first_name']
-            specialist.second_name = form.cleaned_data['second_name'] 
-            specialist.third_name = form.cleaned_data['third_name']
-            specialist.education = form.cleaned_data['education']
-            specialist.workExpirience = form.cleaned_data['workExpirience'] 
-            specialist.about_me = form.cleaned_data['about_me']
-            specialist.user.save()
-            specialist.save()
+            print(form.cleaned_data)
+            specialist.changeUserData(form.harvestingFormdata())
             return redirect('specialistProfile')
     context = {
         'current_usr': specialist,
