@@ -22,14 +22,6 @@
                         <input type="text" class="form-control" name="third_name" value="{{ form.third_name.value }}" maxlength="100" id="id_third_name">
                     </div>
                     <div class="form-group">
-                        <label for="id_education">Школа, образование</label>
-                        <textarea name="education" class="form-control" cols="40" rows="10" maxlength="1000" id="id_education">{{ form.education.value }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="id_dreamWork">Профессия мечты</label>
-                        <textarea name="dreamWork" class="form-control" cols="40" rows="10" maxlength="1000" id="id_dreamWork">{{ form.dreamWork.value }}</textarea>
-                    </div>
-                    <div class="form-group">
                         <label for="id_email">Email</label>
                         <input type="email" class="form-control" name="email" value="{{ form.email.value }}" id="id_email">
                     </div>
@@ -37,8 +29,6 @@
                         <label for="id_Login">Логин</label>
                         <input type="text" name="Login" class="form-control" value="{{ form.Login.value }}" maxlength="100" id="id_Login">
                     </div>
-
-                    <button type="submit" class="btn btn-primary green mt-4">Изменить</button>
                 </div>
                 <div class="col-lg-7">
                     <h1 class="mb-3">Обо мне</h1>
@@ -46,6 +36,15 @@
                         <label for="id_about_me">Обо мне</label>
                         <textarea name="about_me" class="form-control" cols="40" rows="10" maxlength="1000" id="id_about_me">{{ form.about_me.value }}</textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="id_education">Школа, образование</label>
+                        <textarea name="education" class="form-control" cols="40" rows="10" maxlength="1000" id="id_education">{{ form.education.value }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_dreamWork">Профессия мечты</label>
+                        <textarea name="dreamWork" class="form-control" cols="40" rows="10" maxlength="1000" id="id_dreamWork">{{ form.dreamWork.value }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary green mt-2 mb-4">Изменить</button>
                 </div>
             </form>
         </div>

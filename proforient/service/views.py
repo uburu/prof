@@ -33,8 +33,10 @@ def _paginate(objects_list, request, page=None):
             objects_page = paginator.page(paginator.num_pages)
     return objects_page
 
+
 def getCategories():
     return Categories.objects.all()
+
 
 def allServicesPage(request):
     current_usr = userDefine(request)
@@ -53,11 +55,9 @@ def servicesByCategoryPage(request, category_name):
     services = _paginate(Services.objects.allServicesByCategory(categoryName=category_name), request)
     categories = getCategories()
     context = {
-         'current_usr': current_usr,
-         'services': services,
-
-
-         'categories': categories
+        'current_usr': current_usr,
+        'services': services,
+        'categories': categories
     }
     return render(request, 'service/services.html', context)
 
