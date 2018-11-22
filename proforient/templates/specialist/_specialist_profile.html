@@ -6,8 +6,11 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-4 mb-5">
-            <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{% static 'img/ivan.jpg' %}" alt="Generic placeholder image" width="140" height="140"></div>
-            <h4 class="mb-4" style="text-align: center;">{{ usr.second_name }} {{ usr.first_name }} {{ usr.third_name }}</h4>
+            {% if usr.avatar %}
+                <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{{ usr.avatar.url }}" alt="Generic placeholder image" width="140" height="140"></div>
+            {% else %}
+                <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{% static 'img/ivan.jpg' %}" alt="Generic placeholder image" width="140" height="140"></div>
+            {% endif %}            <h4 class="mb-4" style="text-align: center;">{{ usr.second_name }} {{ usr.first_name }} {{ usr.third_name }}</h4>
             <p class="mb-4" style="text-align: center;">Образование: <a href="#">{{ usr.education }}</a></p>
             <p style="text-align: center;">Опыт работы: <a href="#">{{ usr.workExpirience }}</a></p>
         

@@ -99,11 +99,12 @@ def createService(request):
 
 # TODO показывать какое-то сообщение о результате проведения покупки
 def buyService(request, id):
-    current_usr = EmailSignInUser.objects.get(id=request.user.id)
-    print(current_usr)
-    newService = get_object_or_404(Services, pk=id)
-    print(newService)
-    newService.buyer = current_usr
-    newService.buyerCnt += 1
-    newService.save()
-    return redirect('allServicesPage')
+    if (request.user.is_authenticated):
+        current_usr = EmailSignInUser.objects.get(id=request.user.id)
+        newService = get_object_or_404(Services, pk=id)
+        newService.buyer = current_usr
+        newService.buyerCnt += 1
+        newService.save()
+        return redirect('allServicesPage')
+    else:
+        return redirect('/signin')
