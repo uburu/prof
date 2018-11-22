@@ -41,7 +41,7 @@
                     и в их вьюхах нет переменной usr то никакие имена не отображаются нужно везде сделать одно название usr {% endcomment %}
                     {% if current_usr.is_specialist %}
                         <div class="btn-group">
-                            <a class="dropdown-toggle btn btn-primary btn-md green mr-5" href="{% url 'specialistProfile' %}" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ current_usr.first_name }} {{ current_usr.second_name }}</a>
+                            <a class="nav-link dropdown-toggle white_text mr-5" href="{% url 'specialistProfile' %}" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">{{ current_usr.first_name }} {{ current_usr.second_name }}</a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown03">
                                 <a class="dropdown-item" href="{% url 'specialistProfile' %}">Профиль</a>
                                 <a class="dropdown-item" href="{% url 'specialistSettings' %}">Настройки</a>
@@ -53,7 +53,7 @@
                         </div>
                     {% else %}
                         <div class="btn-group">
-                            <a class="dropdown-toggle btn btn-primary btn-md green mr-5" href="{% url 'studentProfile' %}" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ current_usr.first_name }} {{ current_usr.second_name }}</a>
+                            <a class="nav-link dropdown-toggle white_text mr-5" href="{% url 'studentProfile' %}" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">{{ current_usr.first_name }} {{ current_usr.second_name }}</a>
                             
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown03">
                                 <a class="dropdown-item" href="{% url 'studentProfile' %}">Профиль</a>
