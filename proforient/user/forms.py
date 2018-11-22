@@ -44,12 +44,14 @@ class ChangeSettingsForm(forms.Form):
     dreamWork = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
     about_me = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
     avatar = forms.FileField(required=False)
+    listOfPhotos = forms.FileField(required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
     
     def harvestingFormdata(self):
         newData = {}
         for key in self.cleaned_data.keys():
-            if self.cleaned_data[key] != '' and self.cleaned_data[key] != None:
-                newData[key] = self.cleaned_data[key]
+            if key != 'listOfPhotos':
+                if self.cleaned_data[key] != '' and self.cleaned_data[key] != None:
+                    newData[key] = self.cleaned_data[key]
         return newData
 
 

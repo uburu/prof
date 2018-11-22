@@ -6,6 +6,7 @@ from django.http import Http404
 
 from user.forms import SignUpForm, SignInForm, ChangeSettingsForm
 from user.models import Profile
+from photosApp.models import StudentPhotos
 from viewUtils.paginate import _paginate
 
 def studentSignUp(request):
@@ -14,8 +15,8 @@ def studentSignUp(request):
     elif request.method == 'POST':
         form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
-            print(form)
-            print(form.cleaned_data['avatar'])
+            # print(form)
+            # print(form.cleaned_data['avatar'])
             profile = Profile.objects.create_user(
                 Login = form.cleaned_data['Login'],
                 email = form.cleaned_data['email'],
@@ -88,9 +89,15 @@ def studentSettings(request):
         form = ChangeSettingsForm()
     elif request.method == 'POST':
         form = ChangeSettingsForm(request.POST, request.FILES)
+        # print('liiiiist',request.FILES.getlist('listOfPhotos'))
         if form.is_valid():
             print(form.cleaned_data)
+            # print('harv data', form.harvestingFormdata())
             student.changeUserData(form.harvestingFormdata())
+            if ( len(request.FILES.getlist('listOfPhotos')) > 0 ):
+                for photo in request.FILES.getlist('listOfPhotos'): 
+                    StudentPhotos.objects.addPhoto(photo, student)
+            # print('new photos', StudentPhotos.objects.allPhotosByStudent(request.user.id))
             return redirect('studentProfile')
 
     context = {
@@ -98,7 +105,7 @@ def studentSettings(request):
         'form': form,
         'student': student
     }
-    print(form)
+    # print(form)
     return render(request, 'user/_student_settings.html', context)
 
 

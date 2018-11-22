@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'main',
     'user',
     'specialist',
-    'service'
+    'service',
+    'photosApp'
 ]
 
 MIDDLEWARE = [
