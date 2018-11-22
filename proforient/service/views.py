@@ -5,6 +5,7 @@ from modelUtils.emailSignInModel import EmailSignInUser
 from django.http import Http404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
+from photosApp.models import ServicePhotos
 from specialist.models import SpecialistProfile
 from user.models import Profile
 from modelUtils.emailSignInModel import EmailSignInUser
@@ -64,10 +65,12 @@ def servicesByCategoryPage(request, category_name):
 
 def servicePage(request, id):
     current_usr = userDefine(request)
-    service = get_object_or_404(Services, pk=id)
+    service = get_object_or_404(Services,pk=id)
+    photos = ServicePhotos.objects.allPhotosByService(service.id) # фотографии услуги
     context = {
         'current_usr': current_usr,
-        'service': service
+        'service': service,
+        'photos': photos
     }
     return render(request, 'service/service.html', context)
 
@@ -77,7 +80,7 @@ def createService(request):
     if request.method == 'GET':
         form = CreateServiceForm()
     elif request.method == 'POST':
-        form = CreateServiceForm(request.POST)
+        form = CreateServiceForm(request.POST, request.FILES)
         if form.is_valid():
             if request.user is None or request.user.id is None:
                 raise Http404
@@ -87,8 +90,14 @@ def createService(request):
                 form.cleaned_data['category'],
                 form.cleaned_data['title'],
                 form.cleaned_data['description'],
-                form.cleaned_data['price']
+                form.cleaned_data['price'],
+                form.cleaned_data['avatar']
             )
+            if ( len(request.FILES.getlist('listOfPhotos')) > 0 ):
+                for photo in request.FILES.getlist('listOfPhotos'): 
+                    ServicePhotos.objects.addPhoto(photo, serv)
+
+            # print('new photos', ServicePhotos.objects.allPhotosByService(serv.id))
             return redirect('servicePage', id=str(serv.pk))
     context = {
         'current_usr': current_usr,

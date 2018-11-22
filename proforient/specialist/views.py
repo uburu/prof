@@ -12,6 +12,7 @@ from specialist.models import SpecialistProfile
 from user.models import Profile
 from service.models import Services
 from photosApp.models import SpecialistPhotos
+from photosApp.models import StudentPhotos
 from modelUtils.emailSignInModel import EmailSignInUser
 from modelUtils.userUtils import userDefine
 from viewUtils.paginate import _paginate
@@ -22,9 +23,6 @@ def specialistSignUp(request):
     elif request.method == 'POST':
         form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
-            # print(request.FILES)
-            # print(form)
-            # print(form.cleaned_data['avatar'])
             specialist = SpecialistProfile.objects.create_user(
                 Login = form.cleaned_data['Login'],
                 email = form.cleaned_data['email'],
@@ -72,12 +70,14 @@ def specialistProfile(request):
     if request.user is None or request.user.id is None:
         raise Http404
     specialist = SpecialistProfile.objects.get(user_id=request.user.id)
+    photos = SpecialistPhotos.objects.allPhotosBySpecialist(specialist.user.id) # фотографии специалиста
     if not specialist.is_specialist:
         raise Http404
     context = {
         'current_usr': specialist,
         'usr': specialist,
-        'is_me': True
+        'is_me': True,
+        'photos': photos
     }
     return render(request, 'specialist/_specialist_profile.html', context)
 
@@ -90,16 +90,13 @@ def specialistSettings(request):
         form = ChangeSettingsForm()
     elif request.method == 'POST':
         form = ChangeSettingsForm(request.POST, request.FILES)
-        # print('liiiiist',request.FILES.getlist('listOfPhotos'))
         if form.is_valid():
-            # print(form.cleaned_data)
             specialist.changeUserData(form.harvestingFormdata())
 
             if ( len(request.FILES.getlist('listOfPhotos')) > 0 ):
                 for photo in request.FILES.getlist('listOfPhotos'): 
                     SpecialistPhotos.objects.addPhoto(photo, specialist)
             
-            # print('new photos', SpecialistPhotos.objects.allPhotosBySpecialist(request.user.id))
             return redirect('specialistProfile')
     context = {
         'current_usr': specialist,
@@ -126,7 +123,6 @@ def myCreatedServices(request):
 @login_required
 def myBoughtServices(request):
     current_usr = userDefine(request)
-    # print(list(Services.objects.allBoughtServices(request.user.id)))
     myServices = _paginate(Services.objects.allBoughtServices(request.user.id), request)
     
     context = {
@@ -146,19 +142,23 @@ def showSomeProfile(request, id):
         # если пользователь пытается зайти на страницу специалиста
         if SpecialistProfile.objects.filter(user_id=id).exists():
             specialist = SpecialistProfile.objects.get(user_id=id)
+            photos = SpecialistPhotos.objects.allPhotosBySpecialist(specialist.user.id)
             context = {
                 'current_usr': current_usr,
                 'usr': specialist,
-                'is_me': False 
+                'is_me': False,
+                'photos':photos
             }
             return render(request, 'specialist/_specialist_profile.html', context)
         # если пользователь пытается зайти на страницу студента
         elif Profile.objects.filter(user_id=id).exists():
             student = Profile.objects.get(user_id=id)
+            photos = StudentPhotos.objects.allPhotosByStudent(student.user.id)
             context = {
                 'current_usr': current_usr,
                 'usr': student,
-                'is_me': False 
+                'is_me': False,
+                'photos':photos 
             }
             return render(request, 'user/_student_profile.html', context)
         else:
@@ -168,19 +168,23 @@ def showSomeProfile(request, id):
         # если пользователь является специалистом
         if SpecialistProfile.objects.filter(user_id=id).exists():
             specialist = SpecialistProfile.objects.get(user_id=id)
+            photos = SpecialistPhotos.objects.allPhotosBySpecialist(specialist.user.id)
             context = {
                 'current_usr': current_usr,
                 'usr': specialist, 
-                'is_me': True
+                'is_me': True,
+                'photos':photos
             }
             return render(request, 'specialist/_specialist_profile.html', context)
         # если пользователь является студентом
         elif Profile.objects.filter(user_id=id).exists():
             student = Profile.objects.get(user_id=id)
+            photos = StudentPhotos.objects.allPhotosByStudent(student.user.id)
             context = {
                 'current_usr': current_usr,
                 'usr': student,
-                'is_me': True
+                'is_me': True,
+                'photos': photos
             }
             return render(request, 'user/_student_profile.html', context)
 

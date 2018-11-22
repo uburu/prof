@@ -15,8 +15,6 @@ def studentSignUp(request):
     elif request.method == 'POST':
         form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
-            # print(form)
-            # print(form.cleaned_data['avatar'])
             profile = Profile.objects.create_user(
                 Login = form.cleaned_data['Login'],
                 email = form.cleaned_data['email'],
@@ -73,10 +71,12 @@ def studentProfile(request):
     if request.user is None or request.user.id is None:
         raise Http404
     student = Profile.objects.get(user_id=request.user.id)
+    photos = StudentPhotos.objects.allPhotosByStudent(student.user.id) # фотографии студента
     context = {
         'current_usr': student,
         'usr': student,
-        'is_me': True
+        'is_me': True,
+        'photos': photos
     }
     return render(request, 'user/_student_profile.html', context)
 
@@ -89,15 +89,11 @@ def studentSettings(request):
         form = ChangeSettingsForm()
     elif request.method == 'POST':
         form = ChangeSettingsForm(request.POST, request.FILES)
-        # print('liiiiist',request.FILES.getlist('listOfPhotos'))
         if form.is_valid():
-            print(form.cleaned_data)
-            # print('harv data', form.harvestingFormdata())
             student.changeUserData(form.harvestingFormdata())
             if ( len(request.FILES.getlist('listOfPhotos')) > 0 ):
                 for photo in request.FILES.getlist('listOfPhotos'): 
                     StudentPhotos.objects.addPhoto(photo, student)
-            # print('new photos', StudentPhotos.objects.allPhotosByStudent(request.user.id))
             return redirect('studentProfile')
 
     context = {
@@ -105,7 +101,6 @@ def studentSettings(request):
         'form': form,
         'student': student
     }
-    # print(form)
     return render(request, 'user/_student_settings.html', context)
 
 
