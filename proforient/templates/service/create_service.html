@@ -6,18 +6,18 @@
     <div class="row">
         <div class="col-lg-5 col-md-5 mx-auto mt-5">
         <h1>Создание сервиса</h1>
-            <form action="{% url 'createService' %}" method="post">
+            <form enctype="multipart/form-data" action="{% url 'createService' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="id_category">Введите категорию</label>
                     <div class="input-group mb-3">
                         <select class="custom-select" name="category" required id="id_category">
                             <option selected value="Другое" name="category">Другое</option>
-                            <option value="Лекция" name="category">Лекция</option>
-                            <option value="Консультация" name="category">Консультация</option>
-                            <option value="Тестирование" name="category">Тестирование</option>
-                            <option value="Репититорство" name="category">Репетиторство</option>
-                            <option value="Мероприятие" name="category">Мероприятие</option>
+                            <option value="lecture" name="category">Лекция</option>
+                            <option value="consultation" name="category">Консультация</option>
+                            <option value="testing" name="category">Тестирование</option>
+                            <option value="tutoring" name="category">Репетиторство</option>
+                            <option value="event" name="category">Мероприятие</option>
                         </select>
                     </div>
                 </div>
@@ -28,6 +28,14 @@
                 <div class="form-group">
                     <label for="id_description">Описание услуги</label>
                     <textarea cols="40" rows="10" maxlength="1000"  class="form-control" placeholder="Подробное описание" name="description" required id="id_description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="id_avatar">Аватар</label>
+                    <input type="file" class="form-control" name="avatar" id="id_avatar">
+                </div>
+                <div class="form-group">
+                    <label for="id_listOfPhotos">Дополнительные фотографии</label>
+                    <input type="file" class="form-control" name="listOfPhotos" id="id_listOfPhotos" multiple>
                 </div>
                 <div class="form-group">
                     <label for="id_price">Цена за услугу</label>

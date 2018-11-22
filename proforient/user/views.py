@@ -6,13 +6,14 @@ from django.http import Http404
 
 from user.forms import SignUpForm, SignInForm, ChangeSettingsForm
 from user.models import Profile
+from photosApp.models import StudentPhotos
 from viewUtils.paginate import _paginate
 
 def studentSignUp(request):
     if request.method == 'GET':
         form = SignUpForm()
     elif request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             profile = Profile.objects.create_user(
                 Login = form.cleaned_data['Login'],
@@ -20,7 +21,8 @@ def studentSignUp(request):
                 password = form.cleaned_data['password'],
                 first_name = form.cleaned_data['first_name'],
                 second_name = form.cleaned_data['second_name'],
-                third_name = form.cleaned_data['third_name']
+                third_name = form.cleaned_data['third_name'],
+                avatar = form.cleaned_data['avatar']
             )
             login(request, profile.user)
             return redirect('/')
@@ -29,6 +31,8 @@ def studentSignUp(request):
     }
     return render(request, 'user/student_signup.html', context)
 
+
+#TODO валидировать успешность входа можно на уровне формы чтобы можно было рейзить ошибку и показывать ее сразу на фронте
 def signIn(request):
     if request.method == 'GET':
         form = SignInForm()
@@ -60,57 +64,43 @@ def signOut(request):
     logout(request)
     return redirect('/')
 
+
+#TODO сделать проверки на то что если пользователь хочет посмотреть не свой профиль студента(как во вьюхе specialist)
 @login_required
 def studentProfile(request):
     if request.user is None or request.user.id is None:
         raise Http404
     student = Profile.objects.get(user_id=request.user.id)
+    photos = StudentPhotos.objects.allPhotosByStudent(student.user.id) # фотографии студента
     context = {
         'current_usr': student,
         'usr': student,
-        'is_me': True
+        'is_me': True,
+        'photos': photos
     }
     return render(request, 'user/_student_profile.html', context)
 
 @login_required
 def studentSettings(request):
-    if request.user is None or request.user.id is None:
+    if request.user is None or request.user.id is None: # TODO если пользователь незалогинен показывать сообщение а не 404
         raise Http404
     student = Profile.objects.get(user_id=request.user.id)
-
-    # initial - форма заполняется при загрузке. ключ - имя поля в форме. (все равно что <intput value="значение">)
-    # заполнить форму исходными данными нужно для того, чтобы поля которые пользователь не изменял не заполнились None
     if request.method == 'GET':
-        form = ChangeSettingsForm(initial={
-            'email': student.user.email,
-            'Login': student.user.username,
-            'first_name': student.first_name,
-            'second_name': student.second_name,
-            'third_name': student.third_name,
-            'education': student.education,
-            'dreamWork': student.dreamWork,
-            'about_me': student.about_me
-        })
+        form = ChangeSettingsForm()
     elif request.method == 'POST':
-        form = ChangeSettingsForm(request.POST)
+        form = ChangeSettingsForm(request.POST, request.FILES)
         if form.is_valid():
-            student.user.email = form.cleaned_data['email']
-            student.user.username = form.cleaned_data['Login']
-            student.first_name = form.cleaned_data['first_name']
-            student.second_name = form.cleaned_data['second_name'] 
-            student.third_name = form.cleaned_data['third_name']
-            student.education = form.cleaned_data['education']
-            student.dreamWork = form.cleaned_data['dreamWork'] 
-            student.about_me = form.cleaned_data['about_me']
-            student.user.save()
-            student.save()
+            student.changeUserData(form.harvestingFormdata())
+            if ( len(request.FILES.getlist('listOfPhotos')) > 0 ):
+                for photo in request.FILES.getlist('listOfPhotos'): 
+                    StudentPhotos.objects.addPhoto(photo, student)
             return redirect('studentProfile')
 
     context = {
         'current_usr': student,
-        'form': form
+        'form': form,
+        'student': student
     }
-    print(form)
     return render(request, 'user/_student_settings.html', context)
 
 

@@ -5,10 +5,13 @@ from modelUtils.emailSignInModel import EmailSignInUser
 from django.http import Http404
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
+from photosApp.models import ServicePhotos
 from specialist.models import SpecialistProfile
 from user.models import Profile
 from modelUtils.emailSignInModel import EmailSignInUser
 from modelUtils.userUtils import userDefine
+
+
 # Create your views here.
 
 def _paginate(objects_list, request, page=None):
@@ -32,32 +35,42 @@ def _paginate(objects_list, request, page=None):
     return objects_page
 
 
+def getCategories():
+    return Categories.objects.all()
+
+
 def allServicesPage(request):
     current_usr = userDefine(request)
-    services = _paginate(Services.objects.allServices(),request)
+    services = _paginate(Services.objects.allServices(), request)
+    categories = getCategories()
     context = {
         'current_usr': current_usr,
-        'services': services
+        'services': services,
+        'categories': categories
     }
     return render(request, 'service/services.html', context)
 
 
 def servicesByCategoryPage(request, category_name):
     current_usr = userDefine(request)
-    services = _paginate(Services.objects.allServicesByCategory(categoryName=category_name),request)
+    services = _paginate(Services.objects.allServicesByCategory(categoryName=category_name), request)
+    categories = getCategories()
     context = {
         'current_usr': current_usr,
-        'services': services
+        'services': services,
+        'categories': categories
     }
-    return render(request, '.html', context)
+    return render(request, 'service/services.html', context)
 
 
 def servicePage(request, id):
     current_usr = userDefine(request)
     service = get_object_or_404(Services,pk=id)
+    photos = ServicePhotos.objects.allPhotosByService(service.id) # фотографии услуги
     context = {
         'current_usr': current_usr,
-        'service': service
+        'service': service,
+        'photos': photos
     }
     return render(request, 'service/service.html', context)
 
@@ -67,7 +80,7 @@ def createService(request):
     if request.method == 'GET':
         form = CreateServiceForm()
     elif request.method == 'POST':
-        form = CreateServiceForm(request.POST)
+        form = CreateServiceForm(request.POST, request.FILES)
         if form.is_valid():
             if request.user is None or request.user.id is None:
                 raise Http404
@@ -77,8 +90,14 @@ def createService(request):
                 form.cleaned_data['category'],
                 form.cleaned_data['title'],
                 form.cleaned_data['description'],
-                form.cleaned_data['price']
+                form.cleaned_data['price'],
+                form.cleaned_data['avatar']
             )
+            if ( len(request.FILES.getlist('listOfPhotos')) > 0 ):
+                for photo in request.FILES.getlist('listOfPhotos'): 
+                    ServicePhotos.objects.addPhoto(photo, serv)
+
+            # print('new photos', ServicePhotos.objects.allPhotosByService(serv.id))
             return redirect('servicePage', id=str(serv.pk))
     context = {
         'current_usr': current_usr,
@@ -89,14 +108,12 @@ def createService(request):
 
 # TODO показывать какое-то сообщение о результате проведения покупки
 def buyService(request, id):
-    current_usr = EmailSignInUser.objects.get(id=request.user.id)
-    print(current_usr)
-    newService = get_object_or_404(Services, pk=id)
-    print(newService)
-    newService.buyer = current_usr
-    newService.buyerCnt += 1
-    newService.save()
-    return redirect('allServicesPage')
-
-
-    
+    if (request.user.is_authenticated):
+        current_usr = EmailSignInUser.objects.get(id=request.user.id)
+        newService = get_object_or_404(Services, pk=id)
+        newService.buyer = current_usr
+        newService.buyerCnt += 1
+        newService.save()
+        return redirect('allServicesPage')
+    else:
+        return redirect('/signin')

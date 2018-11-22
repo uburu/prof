@@ -9,6 +9,7 @@ class SignUpForm(forms.Form):
     first_name = forms.CharField(max_length=100)
     second_name = forms.CharField(max_length=100)
     third_name = forms.CharField(max_length=100)
+    avatar = forms.FileField(required=False)
     password = forms.CharField(widget=forms.PasswordInput())
     password_confirmation = forms.CharField(widget=forms.PasswordInput())
 
@@ -27,6 +28,7 @@ class SignUpForm(forms.Form):
         if cleaned_data.get('password') != cleaned_data.get('password_confirmation'):
             self.add_error('password_confirmation', 'Пароли не совпадают:(')
         return self.cleaned_data
+    
 
 
 class SignInForm(forms.Form):
@@ -42,6 +44,15 @@ class ChangeSettingsForm(forms.Form):
     education = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
     workExpirience = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
     about_me = forms.CharField(max_length=1000,required=False,widget=forms.Textarea)
+    avatar = forms.FileField(required=False)
+    listOfPhotos = forms.FileField(required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
+    def harvestingFormdata(self):
+        newData = {}
+        for key in self.cleaned_data.keys():
+            if key != 'listOfPhotos':
+                if self.cleaned_data[key] != '' and self.cleaned_data[key] != None:
+                    newData[key] = self.cleaned_data[key]
+        return newData
 
 

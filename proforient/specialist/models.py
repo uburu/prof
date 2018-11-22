@@ -11,23 +11,30 @@ from modelUtils.emailSignInModel import EmailSignInUser
 
 class SpecialistProfileManager(models.Manager):
 
-    def create_user(self, Login, email, password, first_name, second_name, third_name):
+    def create_user(self, Login, email, password, first_name, second_name, third_name, avatar):
         user = EmailSignInUser.objects.create_user(Login, email, password) 
-        return self.create(user=user, first_name=first_name, second_name=second_name, third_name=third_name,is_specialist=True)
-
-    # def allBoughtServices(self):
-    #     return self.myServices.all()
-
+        return self.create(user=user, first_name=first_name, second_name=second_name, third_name=third_name, avatar=avatar,is_specialist=True)
 
 class SpecialistProfile(models.Model):
     objects = SpecialistProfileManager()
-    user = models.OneToOneField(EmailSignInUser, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=100, default=None)
-    second_name = models.CharField(max_length=100, default=None)
-    third_name = models.CharField(max_length=100, default=None)
-    education = models.TextField(default=None, null=True)
-    workExpirience = models.TextField(default=None, null=True)
-    about_me = models.TextField(default=None, null=True)
 
-    # myServices = models.ForeignKey(Services, on_delete=models.CASCADE)
+    user = models.OneToOneField(EmailSignInUser, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100, null=True)
+    second_name = models.CharField(max_length=100, null=True)
+    third_name = models.CharField(max_length=100, null=True)
+    education = models.TextField(null=True)
+    workExpirience = models.TextField(null=True)
+    about_me = models.TextField(null=True)
+    avatar = models.ImageField(upload_to='photos', null=True)
     is_specialist = models.BooleanField(default=True)
+
+    def changeUserData(self, data):
+        if data.get('email') and data['email'] != '':
+            self.user.email = data.pop('email')
+        if data.get('Login') and data['Login'] != '':
+            self.user.username = data.pop('Login')
+        for key in data.keys():
+            self.__dict__[key] = data[key]
+        self.user.save()
+        self.save()
+        return self

@@ -8,6 +8,8 @@ class CreateServiceForm(forms.Form):
     title = forms.CharField(max_length=250)
     description = forms.CharField(widget=forms.Textarea)
     price = forms.IntegerField()
+    avatar = forms.FileField(required=False)
+    listOfPhotos = forms.FileField(required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
     def clean_price(self):
         if self.cleaned_data['price'] < 0:
