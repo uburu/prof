@@ -45,8 +45,6 @@
                         <label for="id_Login">Логин</label>
                         <input type="text" name="Login" class="form-control"  maxlength="100" id="id_Login">
                     </div>
-
-                    <button type="submit" class="btn btn-primary green mt-4">Изменить</button>
                 </div>
                 <div class="col-lg-7">
                     <h1 class="mb-3">Обо мне</h1>
@@ -58,6 +56,15 @@
                         <label for="id_listOfPhotos">Мои фотографии</label>
                         <input type="file" class="form-control" name="listOfPhotos" id="id_listOfPhotos" multiple>
                     </div>
+                    <div class="form-group">
+                        <label for="id_education">Образование</label>
+                        <textarea name="education" class="form-control" cols="40" rows="10" maxlength="1000" id="id_education">{{ form.education.value }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_workExpirience">Опыт работы</label>
+                        <textarea name="workExpirience" class="form-control" cols="40" rows="10" maxlength="1000" id="id_workExpirience">{{ form.workExpirience.value }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary green mb-4">Изменить</button>
                 </div>
                 
             </form>

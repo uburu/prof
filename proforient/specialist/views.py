@@ -12,6 +12,7 @@ from specialist.models import SpecialistProfile
 from user.models import Profile
 from service.models import Services
 from photosApp.models import SpecialistPhotos
+from photosApp.models import StudentPhotos
 from modelUtils.emailSignInModel import EmailSignInUser
 from modelUtils.userUtils import userDefine
 from viewUtils.paginate import _paginate
@@ -72,12 +73,14 @@ def specialistProfile(request):
     if request.user is None or request.user.id is None:
         raise Http404
     specialist = SpecialistProfile.objects.get(user_id=request.user.id)
+    photos = SpecialistPhotos.objects.allPhotosBySpecialist(specialist.user.id) # фотографии специалиста
     if not specialist.is_specialist:
         raise Http404
     context = {
         'current_usr': specialist,
         'usr': specialist,
-        'is_me': True
+        'is_me': True,
+        'photos': photos
     }
     return render(request, 'specialist/_specialist_profile.html', context)
 
@@ -146,19 +149,23 @@ def showSomeProfile(request, id):
         # если пользователь пытается зайти на страницу специалиста
         if SpecialistProfile.objects.filter(user_id=id).exists():
             specialist = SpecialistProfile.objects.get(user_id=id)
+            photos = SpecialistPhotos.objects.allPhotosBySpecialist(specialist.user.id)
             context = {
                 'current_usr': current_usr,
                 'usr': specialist,
-                'is_me': False 
+                'is_me': False,
+                'photos':photos
             }
             return render(request, 'specialist/_specialist_profile.html', context)
         # если пользователь пытается зайти на страницу студента
         elif Profile.objects.filter(user_id=id).exists():
             student = Profile.objects.get(user_id=id)
+            photos = StudentPhotos.objects.allPhotosByStudent(student.user.id)
             context = {
                 'current_usr': current_usr,
                 'usr': student,
-                'is_me': False 
+                'is_me': False,
+                'photos':photos 
             }
             return render(request, 'user/_student_profile.html', context)
         else:
@@ -168,19 +175,23 @@ def showSomeProfile(request, id):
         # если пользователь является специалистом
         if SpecialistProfile.objects.filter(user_id=id).exists():
             specialist = SpecialistProfile.objects.get(user_id=id)
+            photos = SpecialistPhotos.objects.allPhotosBySpecialist(specialist.user.id)
             context = {
                 'current_usr': current_usr,
                 'usr': specialist, 
-                'is_me': True
+                'is_me': True,
+                'photos':photos
             }
             return render(request, 'specialist/_specialist_profile.html', context)
         # если пользователь является студентом
         elif Profile.objects.filter(user_id=id).exists():
             student = Profile.objects.get(user_id=id)
+            photos = StudentPhotos.objects.allPhotosByStudent(student.user.id)
             context = {
                 'current_usr': current_usr,
                 'usr': student,
-                'is_me': True
+                'is_me': True,
+                'photos': photos
             }
             return render(request, 'user/_student_profile.html', context)
 

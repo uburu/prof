@@ -73,10 +73,12 @@ def studentProfile(request):
     if request.user is None or request.user.id is None:
         raise Http404
     student = Profile.objects.get(user_id=request.user.id)
+    photos = StudentPhotos.objects.allPhotosByStudent(student.user.id) # фотографии студента
     context = {
         'current_usr': student,
         'usr': student,
-        'is_me': True
+        'is_me': True,
+        'photos': photos
     }
     return render(request, 'user/_student_profile.html', context)
 
