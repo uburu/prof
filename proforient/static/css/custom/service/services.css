@@ -1,0 +1,14 @@
+.service_shadow {
+    transition:500ms;
+    cursor: pointer;
+}
+
+.service_shadow:hover {
+    box-shadow: 6px 6px 0px rgba(9, 81, 255, 0.6);
+}
+
+a.service_links {
+    color: rgba(9, 81, 255, 1);
+}
+
+

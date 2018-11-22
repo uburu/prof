@@ -1,0 +1,19 @@
+{% load static %}
+
+{% block sidebar %}
+<div class="col-lg-4 col-md-4 mt-5 mb-5 mx-auto">
+    <div class="row">
+        <div class="col-7 mx-auto">
+            <h2 class="mb-3">Категории</h2>
+            <div class="col mb-2 p-0">
+                <span class="h4 mr-3"><a href="{% url 'allServicesPage'%}">Все услуги</a></span>
+                <br>
+                {% for category in categories %}
+                    <span class="h4 mr-3"><a href="{% url 'servicesByCategoryPage' category.name %}">{{ category.slug }}</a></span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}  

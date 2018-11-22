@@ -9,6 +9,8 @@ from specialist.models import SpecialistProfile
 from user.models import Profile
 from modelUtils.emailSignInModel import EmailSignInUser
 from modelUtils.userUtils import userDefine
+
+
 # Create your views here.
 
 def _paginate(objects_list, request, page=None):
@@ -32,29 +34,37 @@ def _paginate(objects_list, request, page=None):
     return objects_page
 
 
+def getCategories():
+    return Categories.objects.all()
+
+
 def allServicesPage(request):
     current_usr = userDefine(request)
-    services = _paginate(Services.objects.allServices(),request)
+    services = _paginate(Services.objects.allServices(), request)
+    categories = getCategories()
     context = {
         'current_usr': current_usr,
-        'services': services
+        'services': services,
+        'categories': categories
     }
     return render(request, 'service/services.html', context)
 
 
 def servicesByCategoryPage(request, category_name):
     current_usr = userDefine(request)
-    services = _paginate(Services.objects.allServicesByCategory(categoryName=category_name),request)
+    services = _paginate(Services.objects.allServicesByCategory(categoryName=category_name), request)
+    categories = getCategories()
     context = {
         'current_usr': current_usr,
-        'services': services
+        'services': services,
+        'categories': categories
     }
     return render(request, 'service/services.html', context)
 
 
 def servicePage(request, id):
     current_usr = userDefine(request)
-    service = get_object_or_404(Services,pk=id)
+    service = get_object_or_404(Services, pk=id)
     context = {
         'current_usr': current_usr,
         'service': service
@@ -98,6 +108,3 @@ def buyService(request, id):
         return redirect('allServicesPage')
     else:
         return redirect('/signin')
-
-
-    
