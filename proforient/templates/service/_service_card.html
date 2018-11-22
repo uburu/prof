@@ -1,13 +1,15 @@
 {% load static %}
-<div class="card mt-4 mb-5 service_shadow">
-    <h2 class="card-header"><a href="{% url 'servicePage' service.id %}" class="service_links">{{ service.title }}</a></h2>
-    <div class="card-body">
-        <h3 class="card-title">{{ service.description }}</h3>
+<div class="card mt-4 mb-5 service_shadow"> 
+    <h2 class="card-header"><a href="{% url 'servicePage' service.id %}" class="service_links">
         {% if service.avatar %}
-            <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{{ service.avatar.url }}" alt="Generic placeholder image" width="140" height="140"></div>
+            <img class="rounded-circle" src="{{ service.avatar.url }}" alt="Generic placeholder image" width="50" height="50">
         {% else %}
-            <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{% static 'img/ivan.jpg' %}" alt="Generic placeholder image" width="140" height="140"></div>
-        {% endif %}         
+            <img class="rounded-circle" src="{% static 'img/ivan.jpg' %}" alt="Generic placeholder image" width="50" height="50">
+        {% endif %} 
+        {{ service.title }}
+    </a></h2>
+    <div class="card-body">
+        <h3 class="card-title">{{ service.description }}</h3>    
         
         <div class="dropdown-divider"></div>
 
