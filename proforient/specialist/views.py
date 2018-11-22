@@ -23,9 +23,6 @@ def specialistSignUp(request):
     elif request.method == 'POST':
         form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
-            # print(request.FILES)
-            # print(form)
-            # print(form.cleaned_data['avatar'])
             specialist = SpecialistProfile.objects.create_user(
                 Login = form.cleaned_data['Login'],
                 email = form.cleaned_data['email'],
@@ -93,16 +90,13 @@ def specialistSettings(request):
         form = ChangeSettingsForm()
     elif request.method == 'POST':
         form = ChangeSettingsForm(request.POST, request.FILES)
-        # print('liiiiist',request.FILES.getlist('listOfPhotos'))
         if form.is_valid():
-            # print(form.cleaned_data)
             specialist.changeUserData(form.harvestingFormdata())
 
             if ( len(request.FILES.getlist('listOfPhotos')) > 0 ):
                 for photo in request.FILES.getlist('listOfPhotos'): 
                     SpecialistPhotos.objects.addPhoto(photo, specialist)
             
-            # print('new photos', SpecialistPhotos.objects.allPhotosBySpecialist(request.user.id))
             return redirect('specialistProfile')
     context = {
         'current_usr': specialist,
@@ -129,7 +123,6 @@ def myCreatedServices(request):
 @login_required
 def myBoughtServices(request):
     current_usr = userDefine(request)
-    # print(list(Services.objects.allBoughtServices(request.user.id)))
     myServices = _paginate(Services.objects.allBoughtServices(request.user.id), request)
     
     context = {
