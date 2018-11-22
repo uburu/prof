@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-lg-5 col-md-5 mx-auto mt-5">
         <h1>Создание сервиса</h1>
-            <form action="{% url 'createService' %}" method="post">
+            <form enctype="multipart/form-data" action="{% url 'createService' %}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="id_category">Введите категорию</label>
@@ -28,6 +28,14 @@
                 <div class="form-group">
                     <label for="id_description">Описание услуги</label>
                     <textarea cols="40" rows="10" maxlength="1000"  class="form-control" placeholder="Подробное описание" name="description" required id="id_description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="id_avatar">Аватар</label>
+                    <input type="file" class="form-control" name="avatar" id="id_avatar">
+                </div>
+                <div class="form-group">
+                    <label for="id_listOfPhotos">Дополнительные фотографии</label>
+                    <input type="file" class="form-control" name="listOfPhotos" id="id_listOfPhotos" multiple>
                 </div>
                 <div class="form-group">
                     <label for="id_price">Цена за услугу</label>

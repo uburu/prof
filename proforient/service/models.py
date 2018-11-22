@@ -38,7 +38,7 @@ class ServiceManager(models.Manager):
     def allServicesByCategory(self,categoryName):
         return self.filter(categories__name=categoryName)
 
-    def createService(self, newAuthor, newCategory, newTitle, newDescription, newPrice):
+    def createService(self, newAuthor, newCategory, newTitle, newDescription, newPrice, avatar):
         serv =  Services()
        
         serv.author = newAuthor
@@ -46,6 +46,7 @@ class ServiceManager(models.Manager):
         serv.title = newTitle
         serv.description = newDescription
         serv.price = newPrice
+        serv.avatar = avatar
         serv.save()
         return serv
 
@@ -70,5 +71,6 @@ class Services(models.Model):
     price = models.IntegerField(default=0)
     buyerCnt = models.IntegerField(default=0)
     creationDate = models.DateField(auto_now_add=True)
+    avatar = models.ImageField(upload_to='photos', null=True)
 
 

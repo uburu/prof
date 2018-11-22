@@ -40,7 +40,7 @@ class SpecialistPhotos(models.Model):
 
 class ServicePhotosManager(models.Manager):
     def addPhoto(self, photo, service): 
-        photoObj = SpecialistPhotos()
+        photoObj = ServicePhotos()
         photoObj.photo = photo
         photoObj.service = service
         photoObj.save()
