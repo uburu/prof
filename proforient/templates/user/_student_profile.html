@@ -11,7 +11,7 @@
                 <div class="col-6 mx-auto"><img class="rounded-circle mb-4" src="{% static 'img/ivan.jpg' %}" alt="Generic placeholder image" width="140" height="140"></div>
             {% endif %}
             <h4 class="mb-4" style="text-align: center;">{{ usr.second_name }} {{ usr.first_name }} {{ usr.third_name }}</h4>
-            <p class="mb-4" style="text-align: center;">Школа, образоваине: <a href="#">{{ usr.education }}</a></p>
+            <p class="mb-4" style="text-align: center;">Школа, образование: <a href="#">{{ usr.education }}</a></p>
             <p style="text-align: center;">Профессия мечты: <a href="#">{{ usr.dreamWork }}</a></p>
             {% if is_me %}
                 <div class="list-group">
@@ -27,7 +27,39 @@
         <div class="col-lg-7">
             <h1 class="mb-3">Обо мне</h1>
             <p>{{ usr.about_me }}</p>
+            <h1 class="mb-4 mt-5">Мои фото</h1>
+            <div class="col-10 h-50 mx-auto">
+                <div class="slider-for">
+                    {% for photo in photos %}
+                        <div><img class="mb-4" src="{{ photo.photo.url }}" alt="Generic placeholder image" width="500"></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="slider-nav h-50">
+                {% for photo in photos %}
+                    <div><img class="mb-4" src="{{ photo.photo.url }}" alt="Generic placeholder image" width="200"></div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
+
+<script src="{% static 'js/bootstrap/jquery-2.2.0.min.js' %}"></script>
+<script>
+    $(document).on('ready', function() {
+      $('.slider-for').slick({
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+          fade: true,
+          asNavFor: '.slider-nav'
+       });
+       $('.slider-nav').slick({
+           slidesToShow: 3,
+           slidesToScroll: 1,
+           asNavFor: '.slider-for',
+           focusOnSelect: true
+        });
+    });
+</script>
 {% endblock %}
